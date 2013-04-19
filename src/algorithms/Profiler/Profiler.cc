@@ -1,30 +1,29 @@
 /*
- * SchedulerRoundRobin.cpp
+ * Profiler.cc
  *
  *  Created on: 19-04-2013
  *      Author: Rafa?
  */
 
-#include "SchedulerRoundRobin.h"
+#include "Profiler.h"
 
 namespace omnetpptraffichandlingsimulation {
 
-SchedulerRoundRobin::SchedulerRoundRobin() {
+Profiler::Profiler() {
     // TODO Auto-generated constructor stub
 
 }
 
-SchedulerRoundRobin::~SchedulerRoundRobin() {
+Profiler::~Profiler() {
     // TODO Auto-generated destructor stub
 }
 
-void SchedulerRoundRobin::initialize() {
 
-    packetQueues = new std::vector<std::queue<SimplePacket> >();
+void Profiler::initialize() {
 
 }
 
-void SchedulerRoundRobin::handleMessage(cMessage *msg) {
+void Profiler::handleMessage(cMessage *msg) {
 
 
     SimplePacket *sPacket = check_and_cast<SimplePacket *>(msg); // dynamic cast
@@ -38,8 +37,10 @@ void SchedulerRoundRobin::handleMessage(cMessage *msg) {
 
 }
 
-void SchedulerRoundRobin::finish() {
+void Profiler::finish() {
 
 }
+
+
 
 } /* namespace omnetpptrafficgenerators */

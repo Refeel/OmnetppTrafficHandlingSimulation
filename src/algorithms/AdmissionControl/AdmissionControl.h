@@ -1,12 +1,12 @@
 /*
- * Scheduler.h
+ * AdmissionControl.h
  *
  *  Created on: 19-04-2013
  *      Author: Rafa?
  */
 
-#ifndef SCHEDULER_H_
-#define SCHEDULER_H_
+#ifndef ADMISSIONCONTROL_H_
+#define ADMISSIONCONTROL_H_
 
 #include <SimplePacket_m.h>
 #include <omnetpp.h>
@@ -15,10 +15,10 @@
 
 namespace omnetpptraffichandlingsimulation {
 
-class Scheduler : public cSimpleModule{
+class AdmissionControl : public cSimpleModule{
 public:
-    Scheduler();
-    virtual ~Scheduler();
+    AdmissionControl();
+    virtual ~AdmissionControl();
 
 
 protected:
@@ -29,7 +29,7 @@ protected:
 
 };
 
-Define_Module(Scheduler);
+Define_Module(AdmissionControl);
 
 } /* namespace omnetpptrafficgenerators */
-#endif /* SCHEDULER_H_ */
+#endif /* ADMISSIONCONTROL_H_ */

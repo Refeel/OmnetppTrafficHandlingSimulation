@@ -1,12 +1,12 @@
 /*
- * Scheduler.h
+ * Profiler.h
  *
  *  Created on: 19-04-2013
  *      Author: Rafa?
  */
 
-#ifndef SCHEDULER_H_
-#define SCHEDULER_H_
+#ifndef PROFILER_H_
+#define PROFILER_H_
 
 #include <SimplePacket_m.h>
 #include <omnetpp.h>
@@ -15,10 +15,10 @@
 
 namespace omnetpptraffichandlingsimulation {
 
-class Scheduler : public cSimpleModule{
+class Profiler : public cSimpleModule{
 public:
-    Scheduler();
-    virtual ~Scheduler();
+    Profiler();
+    virtual ~Profiler();
 
 
 protected:
@@ -29,7 +29,7 @@ protected:
 
 };
 
-Define_Module(Scheduler);
+Define_Module(Profiler);
 
 } /* namespace omnetpptrafficgenerators */
-#endif /* SCHEDULER_H_ */
+#endif /* PROFILER_H_ */

@@ -15,12 +15,24 @@
 
 package omnetpptraffichandlingsimulation;
 
-simple ExponentialPacketGenerator
+
+simple AdmissionControl
 {
-	parameters:
-        int exponentialDelayTime;
-        int packetsNumber;
-        
     gates:
+        input in[];
+        output out[];
+}
+
+simple Profiler
+{
+    gates:
+        input in[];
+        output out[];
+}
+
+simple Scheduler
+{
+    gates:
+        input in[];
         output out[];
 }

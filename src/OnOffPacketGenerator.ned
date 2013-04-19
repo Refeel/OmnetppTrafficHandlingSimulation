@@ -23,5 +23,5 @@ simple OnOffPacketGenerator
         int packetsNumber;
         
     gates:
-        inout gate[];
+        output out[];
 }

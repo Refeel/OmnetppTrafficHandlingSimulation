@@ -37,6 +37,8 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 # Object files for local .cc and .msg files
 OBJS = \
     $O/Txc.o \
+    $O/algorithms/AdmissionControl/AdmissionControl.o \
+    $O/algorithms/Profiler/Profiler.o \
     $O/algorithms/Scheduler/Scheduler.o \
     $O/algorithms/Scheduler/SchedulerRoundRobin.o \
     $O/generators/ExponentialPacketGenerator.o \
@@ -134,6 +136,14 @@ depend:
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/Txc.o: Txc.cc \
 	Txc.h
+$O/algorithms/AdmissionControl/AdmissionControl.o: algorithms/AdmissionControl/AdmissionControl.cc \
+	algorithms/AdmissionControl/AdmissionControl.h \
+	packet/PacketPriority.h \
+	packet/SimplePacket_m.h
+$O/algorithms/Profiler/Profiler.o: algorithms/Profiler/Profiler.cc \
+	algorithms/Profiler/Profiler.h \
+	packet/PacketPriority.h \
+	packet/SimplePacket_m.h
 $O/algorithms/Scheduler/Scheduler.o: algorithms/Scheduler/Scheduler.cc \
 	algorithms/Scheduler/Scheduler.h \
 	packet/PacketPriority.h \

@@ -27,5 +27,5 @@ simple MarkovPacketGenerator
         int packetsNumber;
         
     gates:
-        inout gate[];
+        output out[];
 }

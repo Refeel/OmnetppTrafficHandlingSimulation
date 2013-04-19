@@ -22,5 +22,5 @@ simple PoissonPacketGenerator
         int packetsNumber;
         
     gates:
-        inout gate[];
+        output out[];
 }

@@ -18,7 +18,7 @@ simple PacketGenerator
         int packetsNumber;
         
     gates:
-        inout gate[];
+        //inout gate[];
 }
 
 //
@@ -35,11 +35,11 @@ network TestNetwork
     submodules:
         tic[6]: PacketGenerator;
     connections:
-        tic[0].gate++ <--> Channel <--> tic[1].gate++;
-        tic[1].gate++ <--> Channel <--> tic[2].gate++;
-        tic[1].gate++ <--> Channel <--> tic[4].gate++;
-        tic[3].gate++ <--> Channel <--> tic[4].gate++;
-        tic[4].gate++ <--> Channel <--> tic[5].gate++;
+       // tic[0].gate++ <--> Channel <--> tic[1].gate++;
+       // tic[1].gate++ <--> Channel <--> tic[2].gate++;
+       // tic[1].gate++ <--> Channel <--> tic[4].gate++;
+       // tic[3].gate++ <--> Channel <--> tic[4].gate++;
+       // tic[4].gate++ <--> Channel <--> tic[5].gate++;
 
 
 }

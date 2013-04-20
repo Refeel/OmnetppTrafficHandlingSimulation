@@ -1,5 +1,4 @@
 # Partial Tkenv config file -- see $HOME/.tkenvrc as well
-inspector "TestNetworkFull" "TestNetworkFull" "2" "640x342+225+225:normal"
 inspector "TestNetworkPoisson" "TestNetworkPoisson" "2" "637x342+301+200:normal"
 inspector "TestNetworkExponential" "TestNetworkExponential" "2" "675x342+238+228:normal"
 inspector "Tictoc" "Tictoc" "2" "565x342+75+75:normal"

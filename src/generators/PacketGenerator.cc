@@ -107,11 +107,12 @@ SimplePacket *PacketGenerator::generatePacket() {
 void PacketGenerator::forwardPacket(SimplePacket *sp) {
 
     // Same routing as before: random gate.
-    int n = gateSize("gate");
-    int k = intuniform(0,n-1);
+    //int n = gateSize("gate");  // for inout gates
+    //int k = intuniform(0,n-1);
 
-    EV << "Forwarding packet " << sp << " on gate[" << k << "]\n";
-    send(sp, "gate$o", k);
+    //EV << "Forwarding packet " << sp << " on gate[" << k << "]\n";
+    //send(sp, "gate$o", k);  // for inout gates
+    send(sp, "out", 0); // for single output
 }
 
 void PacketGenerator::initialize() {

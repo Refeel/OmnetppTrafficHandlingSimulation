@@ -13,11 +13,19 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package omnetpptraffichandlingsimulation;
+#ifndef ADMISSIONCONTROLFRONTDROP_H_
+#define ADMISSIONCONTROLFRONTDROP_H_
 
-simple AdmissionControlTailDrop extends AdmissionControl
-{
-    parameters:
-        
-    @class(AdmissionControlTailDrop);
-}
+#include "AdmissionControl.h"
+
+namespace omnetpptraffichandlingsimulation {
+
+
+class AdmissionControlFrontDrop: public AdmissionControl {
+
+protected:
+    virtual void handleMessage(cMessage *msg);
+};
+
+} /* namespace omnetpptraffichandlingsimulation */
+#endif /* ADMISSIONCONTROLFRONTDROP_H_ */

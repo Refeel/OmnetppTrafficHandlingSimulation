@@ -15,9 +15,10 @@
 
 package omnetpptraffichandlingsimulation;
 
-simple AdmissionControlTailDrop extends AdmissionControl
+simple AdmissionControlRandomDrop extends AdmissionControl
 {
     parameters:
         
-    @class(AdmissionControlTailDrop);
+        
+    @class(AdmissionControlRandomDrop);
 }

@@ -25,6 +25,6 @@ class AdmissionControlRandomDrop: public AdmissionControl {
 protected:
     virtual void handleMessage(cMessage *msg);
 };
-
+Define_Module(AdmissionControlRandomDrop);
 } /* namespace omnetpptraffichandlingsimulation */
 #endif /* ADMISSIONCONTROLRANDOMDROP_H_ */

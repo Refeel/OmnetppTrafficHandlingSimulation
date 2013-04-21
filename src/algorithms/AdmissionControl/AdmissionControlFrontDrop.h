@@ -26,6 +26,6 @@ class AdmissionControlFrontDrop: public AdmissionControl {
 protected:
     virtual void handleMessage(cMessage *msg);
 };
-
+Define_Module(AdmissionControlFrontDrop);
 } /* namespace omnetpptraffichandlingsimulation */
 #endif /* ADMISSIONCONTROLFRONTDROP_H_ */

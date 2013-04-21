@@ -39,7 +39,7 @@ void SchedulerWeightedRoundRobin::initialize() {
     for(int i=0;i<numOfPriorityClasses;i++)
         weights[i] /= weights[i] / meanPacketLen;
 
-    double minWeight = std::min(weights.begin(),weights.end());
+    double minWeight = *std::min_element(weights.begin(),weights.end());
 
     for(int i=0; i<numOfPriorityClasses;i++)
         weights[i] /= minWeight;

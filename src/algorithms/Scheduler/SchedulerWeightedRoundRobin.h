@@ -17,6 +17,7 @@
 #define SCHEDULERWEIGHTEDROUNDROBIN_H_
 
 #include "Scheduler.h"
+#include <algorithm>
 
 namespace omnetpptraffichandlingsimulation {
 

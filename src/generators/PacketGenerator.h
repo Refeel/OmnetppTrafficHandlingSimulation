@@ -35,7 +35,7 @@ public:
     void setDelayBeetweenPackets(int delay);
     void setPacketsLength(int len);
     void setSessionLength(int len);
-    void setPacketsPriority(PacketPriority priority);
+    void setPacketsPriority(int priority);
 
     int getPacketsNumber();
     int getDelayBeetweenPackets();
@@ -62,7 +62,8 @@ protected:
     int _delayBeetweenPackets;
     int _packetsLength;
     int _sessionLength;
-    PacketPriority _packetsPriority;
+    //PacketPriority _packetsPriority;
+    int _packetsPriority;
 
     cHistogram hist;
     cOutVector vec;

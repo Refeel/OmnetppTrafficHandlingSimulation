@@ -55,7 +55,7 @@ void PacketGenerator::setSessionLength(int len) {
     this->_sessionLength = len;
 }
 
-void PacketGenerator::setPacketsPriority(PacketPriority priority) {
+void PacketGenerator::setPacketsPriority(int priority) {
     this->_packetsPriority = priority;
 }
 

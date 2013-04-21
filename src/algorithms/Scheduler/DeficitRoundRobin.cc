@@ -37,7 +37,7 @@ void DeficitRoundRobin::initialize() {
 
 void DeficitRoundRobin::handleMessage(cMessage *msg) {
 
-        if(msg==this->msgServiced)
+        /*if(msg==this->msgServiced)
         {
             for(int i=0;i<numOfPriorityClasses; i++) {
                 cycle = (cycle + 1) % numOfPriorityClasses;
@@ -78,7 +78,7 @@ void DeficitRoundRobin::handleMessage(cMessage *msg) {
             SimplePacket *sp = check_and_cast<SimplePacket *> (msg);
             packetQueues->at(sp->getPriority())->push(sp);
 
-        }
+        }*/
 
 }
 

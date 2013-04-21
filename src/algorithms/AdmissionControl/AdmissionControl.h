@@ -29,7 +29,7 @@ protected:
     virtual simtime_t serviceMsg(SimplePacket *sp);
 
     cMessage *msgServiced;
-    std::queue<SimplePacket *> *packetQueue;
+    cQueue packetQueue;
     bool isMsgServiced;
     int maxPacketsInQueue;
 

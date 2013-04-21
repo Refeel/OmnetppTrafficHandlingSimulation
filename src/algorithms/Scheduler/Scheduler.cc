@@ -18,7 +18,7 @@ Scheduler::~Scheduler() {
     // TODO Auto-generated destructor stub
 }
 
-simtime_t serviceMsg(SimplePacket *sp) {
+simtime_t Scheduler::serviceMsg(SimplePacket *sp) {
     return (0.1 * sp->getLength());  // service time proportional to packet length
 }
 

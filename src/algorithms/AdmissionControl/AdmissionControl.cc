@@ -25,7 +25,7 @@ AdmissionControl::~AdmissionControl() {
 
 void AdmissionControl::initialize() {
     this->msgServiced = new cMessage("msgServiced");
-    packetQueue = new std::queue<SimplePacket *> ();
+    packetQueue.setName("queue");
     isMsgServiced = false;
 
     maxPacketsInQueue = 20;

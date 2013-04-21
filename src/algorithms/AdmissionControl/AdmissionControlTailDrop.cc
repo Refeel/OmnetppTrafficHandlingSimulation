@@ -17,18 +17,18 @@
 
 namespace omnetpptraffichandlingsimulation {
 
-void SchedulerFIFO::handleMessage(cMessage *msg) {
+void AdmissionControlTailDrop::handleMessage(cMessage *msg) {
 
     if(msg==this->msgServiced)
     {
-        if(packetQueue->empty())
+        if(packetQueue.isEmpty())
         {
             isMsgServiced = false;
         }
         else
         {
-            simtime_t serviceTime = serviceMsg(packetQueue->front());
-            packetQueue->pop();
+            simtime_t serviceTime = serviceMsg(check_and_cast<SimplePacket *> (msg));
+            packetQueue.pop();
             isMsgServiced = true;
             scheduleAt(simTime() + serviceTime, msgServiced);
         }
@@ -39,13 +39,13 @@ void SchedulerFIFO::handleMessage(cMessage *msg) {
         scheduleAt(simTime() + serviceTime, msgServiced);
     }
     else {
-            int queueLength = packetQueue->size();
+            int queueLength = packetQueue.length();
             if(queueLength >= maxPacketsInQueue) {
                 delete(msg);
                 ev << "DropTail: Delete Message" << endl;
             }
             else{
-                packetQueue->push(check_and_cast<SimplePacket *> (msg));
+                packetQueue.insert(check_and_cast<SimplePacket *> (msg));
             }
     }
 

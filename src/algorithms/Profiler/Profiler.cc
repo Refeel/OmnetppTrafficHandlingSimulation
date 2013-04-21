@@ -18,9 +18,16 @@ Profiler::~Profiler() {
     // TODO Auto-generated destructor stub
 }
 
-
 void Profiler::initialize() {
 
+}
+
+void Profiler::forwardPacket(SimplePacket *sp) {
+    send(sp, "out", 0); // for single output
+    std::string buf;
+    sprintf((char*) buf.c_str(), "Packet forwarded.");
+    EV<< buf.c_str();
+    bubble(buf.c_str());
 }
 
 void Profiler::handleMessage(cMessage *msg) {
@@ -30,7 +37,5 @@ void Profiler::handleMessage(cMessage *msg) {
 void Profiler::finish() {
 
 }
-
-
 
 } /* namespace omnetpptrafficgenerators */

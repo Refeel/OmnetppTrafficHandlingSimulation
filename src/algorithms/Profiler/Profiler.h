@@ -19,6 +19,7 @@ class Profiler : public cSimpleModule{
 public:
     Profiler();
     virtual ~Profiler();
+    void forwardPacket(SimplePacket *sp);
 
 
 protected:

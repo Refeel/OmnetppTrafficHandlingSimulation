@@ -39,7 +39,11 @@ OBJS = \
     $O/Txc.o \
     $O/algorithms/AdmissionControl/AdmissionControl.o \
     $O/algorithms/AdmissionControl/AdmissionControlTailDrop.o \
+    $O/algorithms/Profiler/DualLeakyBucketProfiler.o \
+    $O/algorithms/Profiler/HTBProfiler.o \
+    $O/algorithms/Profiler/LeakyBucketProfiler.o \
     $O/algorithms/Profiler/Profiler.o \
+    $O/algorithms/Profiler/TokenBucketProfiler.o \
     $O/algorithms/Scheduler/DeficitRoundRobin.o \
     $O/algorithms/Scheduler/Scheduler.o \
     $O/algorithms/Scheduler/SchedulerFIFO.o \
@@ -154,8 +158,28 @@ $O/algorithms/AdmissionControl/AdmissionControlTailDrop.o: algorithms/AdmissionC
 	algorithms/AdmissionControl/AdmissionControlTailDrop.h \
 	packet/PacketPriority.h \
 	packet/SimplePacket_m.h
+$O/algorithms/Profiler/DualLeakyBucketProfiler.o: algorithms/Profiler/DualLeakyBucketProfiler.cc \
+	algorithms/Profiler/DualLeakyBucketProfiler.h \
+	algorithms/Profiler/Profiler.h \
+	packet/PacketPriority.h \
+	packet/SimplePacket_m.h
+$O/algorithms/Profiler/HTBProfiler.o: algorithms/Profiler/HTBProfiler.cc \
+	algorithms/Profiler/HTBProfiler.h \
+	algorithms/Profiler/Profiler.h \
+	packet/PacketPriority.h \
+	packet/SimplePacket_m.h
+$O/algorithms/Profiler/LeakyBucketProfiler.o: algorithms/Profiler/LeakyBucketProfiler.cc \
+	algorithms/Profiler/LeakyBucketProfiler.h \
+	algorithms/Profiler/Profiler.h \
+	packet/PacketPriority.h \
+	packet/SimplePacket_m.h
 $O/algorithms/Profiler/Profiler.o: algorithms/Profiler/Profiler.cc \
 	algorithms/Profiler/Profiler.h \
+	packet/PacketPriority.h \
+	packet/SimplePacket_m.h
+$O/algorithms/Profiler/TokenBucketProfiler.o: algorithms/Profiler/TokenBucketProfiler.cc \
+	algorithms/Profiler/Profiler.h \
+	algorithms/Profiler/TokenBucketProfiler.h \
 	packet/PacketPriority.h \
 	packet/SimplePacket_m.h
 $O/algorithms/Scheduler/DeficitRoundRobin.o: algorithms/Scheduler/DeficitRoundRobin.cc \

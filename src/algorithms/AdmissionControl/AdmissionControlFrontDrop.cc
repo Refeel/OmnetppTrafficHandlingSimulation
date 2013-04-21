@@ -17,7 +17,7 @@
 
 namespace omnetpptraffichandlingsimulation {
 
-void AdmissionControlTailDrop::handleMessage(cMessage *msg) {
+void AdmissionControlFrontDrop::handleMessage(cMessage *msg) {
 
     if(msg==this->msgServiced)
     {

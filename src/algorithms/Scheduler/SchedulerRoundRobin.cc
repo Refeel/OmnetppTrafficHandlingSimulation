@@ -22,7 +22,7 @@ void SchedulerRoundRobin::handleMessage(cMessage *msg) {
 
         if(msg==this->msgServiced)
         {
-            for(int i=0;i<numOfPriorityClasses; i++) {
+            for(int i=0;i<=numOfPriorityClasses; i++) {
                 cycle = (cycle + 1) % numOfPriorityClasses;
                 if(!(packetQueues->at(cycle)->empty()))
                     break;
@@ -52,10 +52,15 @@ void SchedulerRoundRobin::handleMessage(cMessage *msg) {
 
             if(packetQueues->at(sp->getPriority())->size() < this->maxPacketsInQueue) // if queue is not full
                 packetQueues->at(sp->getPriority())->push(sp);
-            else    // else reject packet
+            else {   // else reject packet
                 sp = NULL;
+                bubble("packet rejected");
+            }
 
         }
+
+        for(int i=0;i<numOfPriorityClasses;i++)
+            EV <<"\nqueue"<<i<<" :" << packetQueues->at(i)->size();
 
 }
 

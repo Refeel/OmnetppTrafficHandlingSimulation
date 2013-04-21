@@ -44,8 +44,8 @@ OBJS = \
     $O/algorithms/Profiler/LeakyBucketProfiler.o \
     $O/algorithms/Profiler/Profiler.o \
     $O/algorithms/Profiler/TokenBucketProfiler.o \
-    $O/algorithms/Scheduler/DeficitRoundRobin.o \
     $O/algorithms/Scheduler/Scheduler.o \
+    $O/algorithms/Scheduler/SchedulerDeficitRoundRobin.o \
     $O/algorithms/Scheduler/SchedulerFIFO.o \
     $O/algorithms/Scheduler/SchedulerRoundRobin.o \
     $O/algorithms/Scheduler/SchedulerWeightedRoundRobin.o \
@@ -182,13 +182,13 @@ $O/algorithms/Profiler/TokenBucketProfiler.o: algorithms/Profiler/TokenBucketPro
 	algorithms/Profiler/TokenBucketProfiler.h \
 	packet/PacketPriority.h \
 	packet/SimplePacket_m.h
-$O/algorithms/Scheduler/DeficitRoundRobin.o: algorithms/Scheduler/DeficitRoundRobin.cc \
-	algorithms/Scheduler/DeficitRoundRobin.h \
+$O/algorithms/Scheduler/Scheduler.o: algorithms/Scheduler/Scheduler.cc \
 	algorithms/Scheduler/Scheduler.h \
 	packet/PacketPriority.h \
 	packet/SimplePacket_m.h
-$O/algorithms/Scheduler/Scheduler.o: algorithms/Scheduler/Scheduler.cc \
+$O/algorithms/Scheduler/SchedulerDeficitRoundRobin.o: algorithms/Scheduler/SchedulerDeficitRoundRobin.cc \
 	algorithms/Scheduler/Scheduler.h \
+	algorithms/Scheduler/SchedulerDeficitRoundRobin.h \
 	packet/PacketPriority.h \
 	packet/SimplePacket_m.h
 $O/algorithms/Scheduler/SchedulerFIFO.o: algorithms/Scheduler/SchedulerFIFO.cc \

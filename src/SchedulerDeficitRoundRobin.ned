@@ -21,5 +21,5 @@ simple SchedulerDeficitRoundRobin extends Scheduler
     parameters:
         int lengthQuant;
         
-    @class(SchedulerWeightedRoundRobin);
+    @class(SchedulerDeficitRoundRobin);
 }

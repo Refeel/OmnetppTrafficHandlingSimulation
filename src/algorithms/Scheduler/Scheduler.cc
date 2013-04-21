@@ -19,7 +19,7 @@ Scheduler::~Scheduler() {
 }
 
 simtime_t Scheduler::serviceMsg(SimplePacket *sp) {
-    return (0.1 * sp->getLength());  // service time proportional to packet length
+    return (0.01 * sp->getLength());  // service time proportional to packet length
 }
 
 

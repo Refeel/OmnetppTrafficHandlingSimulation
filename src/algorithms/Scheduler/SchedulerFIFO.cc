@@ -50,10 +50,13 @@ void SchedulerFIFO::handleMessage(cMessage *msg) {
     else {
         if(packetQueue->size() < this->maxPacketsInQueue)   // if queue is not full
             packetQueue->push(check_and_cast<SimplePacket *> (msg));
-        else // reject packet
+        else {// reject packet
             msg = NULL;
+            bubble("packet rejected");
+        }
     }
 
+    EV<<"qsize: " << packetQueue->size();
 }
 
 } /* namespace omnetpptraffichandlingsimulation */

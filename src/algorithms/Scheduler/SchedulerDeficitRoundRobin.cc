@@ -13,20 +13,20 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "DeficitRoundRobin.h"
+#include "SchedulerDeficitRoundRobin.h"
 
 namespace omnetpptraffichandlingsimulation {
 
-DeficitRoundRobin::DeficitRoundRobin() {
+SchedulerDeficitRoundRobin::SchedulerDeficitRoundRobin() {
     // TODO Auto-generated constructor stub
 
 }
 
-DeficitRoundRobin::~DeficitRoundRobin() {
+SchedulerDeficitRoundRobin::~SchedulerDeficitRoundRobin() {
     // TODO Auto-generated destructor stub
 }
 
-void DeficitRoundRobin::initialize() {
+void SchedulerDeficitRoundRobin::initialize() {
     Scheduler::initialize();
 
     deficits.resize(numOfPriorityClasses);
@@ -37,11 +37,17 @@ void DeficitRoundRobin::initialize() {
 
 }
 
-void DeficitRoundRobin::handleMessage(cMessage *msg)
+void SchedulerDeficitRoundRobin::handleMessage(cMessage *msg)
 {
         if(msg==this->msgServiced)
         {
-            cycle = (cycle + 1) % numOfPriorityClasses;
+            for(int i=0;i<=numOfPriorityClasses; i++) {
+                cycle = (cycle + 1) % numOfPriorityClasses;
+                if(!(packetQueues->at(cycle)->empty()))
+                    break;
+                else
+                    deficits[cycle] = 0;
+            }
 
             std::queue <SimplePacket *> *queue = packetQueues->at(cycle);
 
@@ -55,7 +61,7 @@ void DeficitRoundRobin::handleMessage(cMessage *msg)
             {
                 simtime_t serviceTime = 0;
 
-                for(int i=0; i < queue->size(); i++)
+                for(unsigned int i=0; i < queue->size(); i++)
                 {
                     if(deficits[cycle] >= queue->front()->getLength())
                     {
@@ -69,6 +75,10 @@ void DeficitRoundRobin::handleMessage(cMessage *msg)
 
                 isMsgServiced = true;
                 scheduleAt(simTime() + serviceTime, msgServiced);
+
+                EV << "\ncycle " << cycle;
+                for(int i=0;i<numOfPriorityClasses;i++)
+                    EV <<"\nqueue"<<i<<" :" << packetQueues->at(i)->size() <<"deficit: " << deficits[i];
             }
         }
         else if(!isMsgServiced)
@@ -83,9 +93,12 @@ void DeficitRoundRobin::handleMessage(cMessage *msg)
 
             if(packetQueues->at(sp->getPriority())->size() < this->maxPacketsInQueue) // if queue is not full
                 packetQueues->at(sp->getPriority())->push(sp);
-            else    // else reject packet
+            else {   // else reject packet
                 sp = NULL;
+                bubble("packet rejected");
+            }
         }
+
 
 }
 

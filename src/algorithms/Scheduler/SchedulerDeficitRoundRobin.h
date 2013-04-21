@@ -13,17 +13,17 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef DEFICITROUNDROBIN_H_
-#define DEFICITROUNDROBIN_H_
+#ifndef SCHEDULERDEFICITROUNDROBIN_H_
+#define SCHEDULERDEFICITROUNDROBIN_H_
 
 #include "Scheduler.h"
 
 namespace omnetpptraffichandlingsimulation {
 
-class DeficitRoundRobin : public Scheduler {
+class SchedulerDeficitRoundRobin : public Scheduler {
 public:
-    DeficitRoundRobin();
-    virtual ~DeficitRoundRobin();
+    SchedulerDeficitRoundRobin();
+    virtual ~SchedulerDeficitRoundRobin();
 
 protected:
     virtual void initialize();
@@ -35,7 +35,7 @@ private:
     int lengthQuant;
 };
 
-Define_Module(DeficitRoundRobin);
+Define_Module(SchedulerDeficitRoundRobin);
 
 } /* namespace omnetpptraffichandlingsimulation */
-#endif /* DEFICITROUNDROBIN_H_ */
+#endif /* SCHEDULERDEFICITROUNDROBIN_H_ */

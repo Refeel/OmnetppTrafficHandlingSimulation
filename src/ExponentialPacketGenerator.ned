@@ -15,12 +15,12 @@
 
 package omnetpptraffichandlingsimulation;
 
-simple ExponentialPacketGenerator
+simple ExponentialPacketGenerator extends PacketGenerator
 {
 	parameters:
         int exponentialDelayTime;
-        int packetsNumber;
         
-    gates:
-        output out[];
+    @class(ExponentialPacketGenerator);
 }
+
+

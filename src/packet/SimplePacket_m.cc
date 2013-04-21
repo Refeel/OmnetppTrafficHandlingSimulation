@@ -1,5 +1,5 @@
 //
-// Generated file, do not edit! Created by opp_msgc 4.2 from packet/SimplePacket.msg.
+// Generated file, do not edit! Created by opp_msgc 4.3 from packet/SimplePacket.msg.
 //
 
 // Disable warnings about unused variables, empty switch stmts, etc:
@@ -40,6 +40,7 @@ SimplePacket::SimplePacket(const char *name, int kind) : cPacket(name,kind)
     this->sessionId_var = 0;
     this->packetId_var = 0;
     this->priority_var = 0;
+    this->length_var = 0;
     this->payload_var = 0;
 }
 
@@ -67,6 +68,7 @@ void SimplePacket::copy(const SimplePacket& other)
     this->sessionId_var = other.sessionId_var;
     this->packetId_var = other.packetId_var;
     this->priority_var = other.priority_var;
+    this->length_var = other.length_var;
     this->payload_var = other.payload_var;
 }
 
@@ -78,6 +80,7 @@ void SimplePacket::parsimPack(cCommBuffer *b)
     doPacking(b,this->sessionId_var);
     doPacking(b,this->packetId_var);
     doPacking(b,this->priority_var);
+    doPacking(b,this->length_var);
     doPacking(b,this->payload_var);
 }
 
@@ -89,6 +92,7 @@ void SimplePacket::parsimUnpack(cCommBuffer *b)
     doUnpacking(b,this->sessionId_var);
     doUnpacking(b,this->packetId_var);
     doUnpacking(b,this->priority_var);
+    doUnpacking(b,this->length_var);
     doUnpacking(b,this->payload_var);
 }
 
@@ -140,6 +144,16 @@ int SimplePacket::getPriority() const
 void SimplePacket::setPriority(int priority)
 {
     this->priority_var = priority;
+}
+
+int SimplePacket::getLength() const
+{
+    return length_var;
+}
+
+void SimplePacket::setLength(int length)
+{
+    this->length_var = length;
 }
 
 const char * SimplePacket::getPayload() const
@@ -199,7 +213,7 @@ const char *SimplePacketDescriptor::getProperty(const char *propertyname) const
 int SimplePacketDescriptor::getFieldCount(void *object) const
 {
     cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 6+basedesc->getFieldCount(object) : 6;
+    return basedesc ? 7+basedesc->getFieldCount(object) : 7;
 }
 
 unsigned int SimplePacketDescriptor::getFieldTypeFlags(void *object, int field) const
@@ -217,8 +231,9 @@ unsigned int SimplePacketDescriptor::getFieldTypeFlags(void *object, int field) 
         FD_ISEDITABLE,
         FD_ISEDITABLE,
         FD_ISEDITABLE,
+        FD_ISEDITABLE,
     };
-    return (field>=0 && field<6) ? fieldTypeFlags[field] : 0;
+    return (field>=0 && field<7) ? fieldTypeFlags[field] : 0;
 }
 
 const char *SimplePacketDescriptor::getFieldName(void *object, int field) const
@@ -235,9 +250,10 @@ const char *SimplePacketDescriptor::getFieldName(void *object, int field) const
         "sessionId",
         "packetId",
         "priority",
+        "length",
         "payload",
     };
-    return (field>=0 && field<6) ? fieldNames[field] : NULL;
+    return (field>=0 && field<7) ? fieldNames[field] : NULL;
 }
 
 int SimplePacketDescriptor::findField(void *object, const char *fieldName) const
@@ -249,7 +265,8 @@ int SimplePacketDescriptor::findField(void *object, const char *fieldName) const
     if (fieldName[0]=='s' && strcmp(fieldName, "sessionId")==0) return base+2;
     if (fieldName[0]=='p' && strcmp(fieldName, "packetId")==0) return base+3;
     if (fieldName[0]=='p' && strcmp(fieldName, "priority")==0) return base+4;
-    if (fieldName[0]=='p' && strcmp(fieldName, "payload")==0) return base+5;
+    if (fieldName[0]=='l' && strcmp(fieldName, "length")==0) return base+5;
+    if (fieldName[0]=='p' && strcmp(fieldName, "payload")==0) return base+6;
     return basedesc ? basedesc->findField(object, fieldName) : -1;
 }
 
@@ -267,9 +284,10 @@ const char *SimplePacketDescriptor::getFieldTypeString(void *object, int field) 
         "int",
         "int",
         "int",
+        "int",
         "string",
     };
-    return (field>=0 && field<6) ? fieldTypeStrings[field] : NULL;
+    return (field>=0 && field<7) ? fieldTypeStrings[field] : NULL;
 }
 
 const char *SimplePacketDescriptor::getFieldProperty(void *object, int field, const char *propertyname) const
@@ -314,7 +332,8 @@ std::string SimplePacketDescriptor::getFieldAsString(void *object, int field, in
         case 2: return long2string(pp->getSessionId());
         case 3: return long2string(pp->getPacketId());
         case 4: return long2string(pp->getPriority());
-        case 5: return oppstring2string(pp->getPayload());
+        case 5: return long2string(pp->getLength());
+        case 6: return oppstring2string(pp->getPayload());
         default: return "";
     }
 }
@@ -334,7 +353,8 @@ bool SimplePacketDescriptor::setFieldAsString(void *object, int field, int i, co
         case 2: pp->setSessionId(string2long(value)); return true;
         case 3: pp->setPacketId(string2long(value)); return true;
         case 4: pp->setPriority(string2long(value)); return true;
-        case 5: pp->setPayload((value)); return true;
+        case 5: pp->setLength(string2long(value)); return true;
+        case 6: pp->setPayload((value)); return true;
         default: return false;
     }
 }
@@ -354,8 +374,9 @@ const char *SimplePacketDescriptor::getFieldStructName(void *object, int field) 
         NULL,
         NULL,
         NULL,
+        NULL,
     };
-    return (field>=0 && field<6) ? fieldStructNames[field] : NULL;
+    return (field>=0 && field<7) ? fieldStructNames[field] : NULL;
 }
 
 void *SimplePacketDescriptor::getFieldStructPointer(void *object, int field, int i) const

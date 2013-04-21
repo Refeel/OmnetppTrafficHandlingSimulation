@@ -128,6 +128,9 @@ void PacketGenerator::initialize() {
 
     setPacketsNumber((int)par("packetsNumber"));
 
+    setPacketsLength((int)par("packetsLength"));
+    setPacketsPriority((int)par("packetsPriority"));
+
     this->_packetsCount = 0;
 
     scheduleAt(simTime() + 1, event);

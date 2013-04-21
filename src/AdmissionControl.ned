@@ -15,11 +15,9 @@
 
 package omnetpptraffichandlingsimulation;
 
-simple OnOffPacketGenerator extends PacketGenerator
+simple AdmissionControl
 {
-	parameters:
-        int onOffDelayTime;
-        int onOffStateDurationTime;
-
-	@class(OnOffPacketGenerator);
+    gates:
+        input in[];
+        output out[];
 }

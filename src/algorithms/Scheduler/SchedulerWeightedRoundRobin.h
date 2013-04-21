@@ -13,13 +13,28 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package omnetpptraffichandlingsimulation;
+#ifndef SCHEDULERWEIGHTEDROUNDROBIN_H_
+#define SCHEDULERWEIGHTEDROUNDROBIN_H_
 
-simple OnOffPacketGenerator extends PacketGenerator
-{
-	parameters:
-        int onOffDelayTime;
-        int onOffStateDurationTime;
+#include "Scheduler.h"
 
-	@class(OnOffPacketGenerator);
-}
+namespace omnetpptraffichandlingsimulation {
+
+class SchedulerWeightedRoundRobin : public Scheduler {
+public:
+    SchedulerWeightedRoundRobin();
+    virtual ~SchedulerWeightedRoundRobin();
+
+protected:
+    virtual void initialize();
+    virtual void handleMessage(cMessage *msg);  // to override
+
+private:
+    int cycle=0;
+    std::vector<double> weights;
+    double meanPacketLen;
+
+};
+
+} /* namespace omnetpptraffichandlingsimulation */
+#endif /* SCHEDULERWEIGHTEDROUNDROBIN_H_ */

@@ -16,87 +16,26 @@
 package omnetpptraffichandlingsimulation.simulations;
 
 import omnetpptraffichandlingsimulation.AdmissionControl;
+//TODO
+
 import omnetpptraffichandlingsimulation.Profiler;
+//TODO
+
 import omnetpptraffichandlingsimulation.Scheduler;
+import omnetpptraffichandlingsimulation.SchedulerFIFO;
+import omnetpptraffichandlingsimulation.SchedulerRoundRobin;
+import omnetpptraffichandlingsimulation.SchedulerWeightedRoundRobin;
+import omnetpptraffichandlingsimulation.SchedulerDeficitRoundRobin;
+
+import omnetpptraffichandlingsimulation.PacketGenerator;
 import omnetpptraffichandlingsimulation.ExponentialPacketGenerator;
 import omnetpptraffichandlingsimulation.PoissonPacketGenerator;
 import omnetpptraffichandlingsimulation.OnOffPacketGenerator;
 import omnetpptraffichandlingsimulation.MarkovPacketGenerator;
 
-//import omnetpptraffichandlingsimulation.TestNetworkFullStructures;
-
-simple AdmissionControl
-{
-    gates:
-        input in[];
-        output out[];
-}
-
-simple Profiler
-{
-    gates:
-        input in[];
-        output out[];
-}
-
-simple Scheduler
-{
-    gates:
-        input in[];
-        output out[];
-}
-
-simple ExponentialPacketGenerator
-{
-    parameters:
-        int exponentialDelayTime;
-        int packetsNumber;
-
-    gates:
-        output out[];
-}
-
-simple PoissonPacketGenerator
-{
-    parameters:
-        int poissonDelayTime;
-        int packetsNumber;
-
-    gates:
-        output out[];
-}
-
-simple OnOffPacketGenerator
-{
-    parameters:
-        int onOffDelayTime;
-        int onOffStateDurationTime;
-        int packetsNumber;
-
-    gates:
-        output out[];
-}
-
-simple MarkovPacketGenerator
-{
-    parameters:
-        int markovStateDurationTime;
-        int markovMinStateDurationTime;
-        int markovMaxStateDurationTime;
-        int statesNum;
-        int spaceBeetweenStates;
-
-        int packetsNumber;
-
-    gates:
-        output out[];
-}
 
 
-//
-// Two instances (tic and toc) of Txc1 connected both ways.
-// Tic and toc will pass messages to one another.
-//
+
 network TestNetworkFull
 {
     @display("bgb=531,302");

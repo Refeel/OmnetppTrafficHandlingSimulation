@@ -19,7 +19,9 @@ simple PacketGenerator
 {
     parameters:
         int packetsNumber;
+        int packetsLength;
+        int packetsPriority;
         
     gates:
-        inout gate[];
+        output out[];
 }

@@ -15,7 +15,8 @@
 
 package omnetpptraffichandlingsimulation;
 
-simple MarkovPacketGenerator
+
+simple MarkovPacketGenerator extends PacketGenerator
 {
 	parameters:
         int markovStateDurationTime;
@@ -24,8 +25,6 @@ simple MarkovPacketGenerator
         int statesNum;
         int spaceBeetweenStates;
         
-        int packetsNumber;
-        
-    gates:
-        output out[];
+
+	@class(MarkovPacketGenerator);
 }

@@ -13,26 +13,26 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package omnetpptraffichandlingsimulation;
+#ifndef DEFICITROUNDROBIN_H_
+#define DEFICITROUNDROBIN_H_
 
+#include "Scheduler.h"
 
-simple AdmissionControl
-{
-    gates:
-        input in[];
-        output out[];
-}
+namespace omnetpptraffichandlingsimulation {
 
-simple Profiler
-{
-    gates:
-        input in[];
-        output out[];
-}
+class DeficitRoundRobin : public Scheduler {
+public:
+    DeficitRoundRobin();
+    virtual ~DeficitRoundRobin();
 
-simple Scheduler
-{
-    gates:
-        input in[];
-        output out[];
-}
+protected:
+    virtual void initialize();
+    virtual void handleMessage(cMessage *msg);  // to override
+
+private:
+    int cycle=0;
+    std::vector<double> deficits;
+};
+
+} /* namespace omnetpptraffichandlingsimulation */
+#endif /* DEFICITROUNDROBIN_H_ */

@@ -9,9 +9,10 @@
 #define SCHEDULER_H_
 
 #include <SimplePacket_m.h>
-#include <omnetpp.h>
 #include <PacketPriority.h>
-
+//#include <omnetpp.h>
+#include <vector>
+#include <queue>
 
 namespace omnetpptraffichandlingsimulation {
 
@@ -20,12 +21,21 @@ public:
     Scheduler();
     virtual ~Scheduler();
 
-
 protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);  // to override
     virtual void finish();
 
+
+    virtual simtime_t serviceMsg(SimplePacket *sp);
+
+    cMessage *msgServiced;
+    std::vector <std::queue<SimplePacket *> *> *packetQueues;
+    std::queue<SimplePacket *> *packetQueue;
+    bool isMsgServiced;
+
+    int numOfPriorityClasses;
+    int maxPacketsInQueue;
 
 };
 

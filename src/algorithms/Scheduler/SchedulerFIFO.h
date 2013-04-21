@@ -13,13 +13,22 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package omnetpptraffichandlingsimulation;
+#ifndef SCHEDULERFIFO_H_
+#define SCHEDULERFIFO_H_
 
-simple OnOffPacketGenerator extends PacketGenerator
-{
-	parameters:
-        int onOffDelayTime;
-        int onOffStateDurationTime;
+#include "Scheduler.h"
 
-	@class(OnOffPacketGenerator);
-}
+namespace omnetpptraffichandlingsimulation {
+
+class SchedulerFIFO : public Scheduler{
+public:
+    SchedulerFIFO();
+    virtual ~SchedulerFIFO();
+
+protected:
+    virtual void handleMessage(cMessage *msg);  // to override
+    virtual void finish();
+};
+
+} /* namespace omnetpptraffichandlingsimulation */
+#endif /* SCHEDULERFIFO_H_ */

@@ -18,9 +18,23 @@ Scheduler::~Scheduler() {
     // TODO Auto-generated destructor stub
 }
 
+simtime_t serviceMsg(SimplePacket *sp) {
+    return (0.1 * sp->getLength());  // service time proportional to packet length
+}
+
 
 void Scheduler::initialize() {
 
+    this->msgServiced = new cMessage("msgServiced");
+    packetQueues = new std::vector<std::queue<SimplePacket *> *>();
+    packetQueue = new std::queue<SimplePacket *> ();
+    isMsgServiced = false;
+
+    numOfPriorityClasses = par("numOfPriorityClasses");
+    maxPacketsInQueue = par("maxPacketsInQueue");
+
+    for(int i=0;i<numOfPriorityClasses;i++)
+        packetQueues->push_back(new std::queue<SimplePacket *>());
 }
 
 void Scheduler::handleMessage(cMessage *msg) {
@@ -40,6 +54,8 @@ void Scheduler::handleMessage(cMessage *msg) {
 void Scheduler::finish() {
 
 }
+
+
 
 
 

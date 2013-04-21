@@ -18,23 +18,40 @@ SchedulerRoundRobin::~SchedulerRoundRobin() {
     // TODO Auto-generated destructor stub
 }
 
-void SchedulerRoundRobin::initialize() {
-
-    packetQueues = new std::vector<std::queue<SimplePacket> >();
-
-}
-
 void SchedulerRoundRobin::handleMessage(cMessage *msg) {
 
+        if(msg==this->msgServiced)
+        {
+            for(int i=0;i<numOfPriorityClasses; i++) {
+                cycle = (cycle + 1) % numOfPriorityClasses;
+                if(!(packetQueues->at(cycle)->empty()))
+                    break;
+            }
 
-    SimplePacket *sPacket = check_and_cast<SimplePacket *>(msg); // dynamic cast
+            std::queue <SimplePacket *> *queue = packetQueues->at(cycle);
 
-    if (sPacket->getDST() == getIndex()) {
-        EV << "Packet " << sPacket << " arrived\n";
+            if(queue->empty())
+            {
+                isMsgServiced = false;
+            }
+            else
+            {
+                simtime_t serviceTime = serviceMsg(queue->front());
+                queue->pop();
+                isMsgServiced = true;
+                scheduleAt(simTime() + serviceTime, msgServiced);
+            }
+        }
+        else if(!isMsgServiced) {
+            simtime_t serviceTime = serviceMsg(check_and_cast<SimplePacket *> (msg));
+            isMsgServiced = true;
+            scheduleAt(simTime() + serviceTime, msgServiced);
+        }
+        else {
+            SimplePacket *sp = check_and_cast<SimplePacket *> (msg);
+            packetQueues->at(sp->getPriority())->push(sp);
 
-        delete sPacket;
-    }
-
+        }
 
 }
 

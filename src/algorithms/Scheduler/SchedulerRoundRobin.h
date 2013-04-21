@@ -8,12 +8,7 @@
 #ifndef SCHEDULERROUNDROBIN_H_
 #define SCHEDULERROUNDROBIN_H_
 
-#include <PacketGenerator.h>
-#include <packet/SimplePacket_m.h>
 #include "Scheduler.h"
-#include <omnetpp.h>
-#include <vector>
-#include <queue>
 
 namespace omnetpptraffichandlingsimulation {
 
@@ -24,12 +19,12 @@ public:
 
 
 protected:
-    virtual void initialize();
     virtual void handleMessage(cMessage *msg);  // to override
     virtual void finish();
 
+
 private:
-    std::vector <std::queue<SimplePacket> > *packetQueues;
+    int cycle=0;
 
 };
 

@@ -15,11 +15,7 @@
 
 package omnetpptraffichandlingsimulation;
 
-simple OnOffPacketGenerator extends PacketGenerator
+simple SchedulerRoundRobin extends Scheduler
 {
-	parameters:
-        int onOffDelayTime;
-        int onOffStateDurationTime;
-
-	@class(OnOffPacketGenerator);
+    @class(SchedulerRoundRobin);
 }

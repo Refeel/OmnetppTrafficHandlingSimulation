@@ -17,8 +17,8 @@
 #define EXPONENTIALPACKETGENERATOR_H_
 
 #include <PacketGenerator.h>
-#include <SimplePacket_m.h>
-#include <omnetpp.h>
+//#include <SimplePacket_m.h>
+//#include <omnetpp.h>
 
 namespace omnetpptraffichandlingsimulation {
 

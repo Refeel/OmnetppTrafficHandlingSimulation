@@ -15,12 +15,12 @@
 
 package omnetpptraffichandlingsimulation;
 
-simple PoissonPacketGenerator
+import omnetpptraffichandlingsimulation.PacketGenerator;
+
+simple PoissonPacketGenerator extends PacketGenerator
 {
 	parameters:
         int poissonDelayTime;
-        int packetsNumber;
         
-    gates:
-        output out[];
+    @class(PoissonPacketGenerator);
 }

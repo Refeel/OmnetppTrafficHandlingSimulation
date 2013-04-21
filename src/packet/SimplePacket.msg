@@ -22,6 +22,6 @@ packet SimplePacket
      int sessionId;
      int packetId;
      int priority;
-     
+     int length;
      string payload; //packet data
 };

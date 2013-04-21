@@ -39,8 +39,11 @@ OBJS = \
     $O/Txc.o \
     $O/algorithms/AdmissionControl/AdmissionControl.o \
     $O/algorithms/Profiler/Profiler.o \
+    $O/algorithms/Scheduler/DeficitRoundRobin.o \
     $O/algorithms/Scheduler/Scheduler.o \
+    $O/algorithms/Scheduler/SchedulerFIFO.o \
     $O/algorithms/Scheduler/SchedulerRoundRobin.o \
+    $O/algorithms/Scheduler/SchedulerWeightedRoundRobin.o \
     $O/generators/ExponentialPacketGenerator.o \
     $O/generators/MarkovPacketGenerator.o \
     $O/generators/OnOffPacketGenerator.o \
@@ -97,11 +100,12 @@ endif
 
 # Main target
 all: $O/$(TARGET)
-	$(LN) $O/$(TARGET) .
+	$(Q)$(LN) $O/$(TARGET) .
 
 $O/$(TARGET): $(OBJS)  $(wildcard $(EXTRA_OBJS)) Makefile
 	@$(MKPATH) $O
-	$(CXX) $(LDFLAGS) -o $O/$(TARGET)  $(OBJS) $(EXTRA_OBJS) $(AS_NEEDED_OFF) $(WHOLE_ARCHIVE_ON) $(LIBS) $(WHOLE_ARCHIVE_OFF) $(OMNETPP_LIBS)
+	@echo Creating executable: $@
+	$(Q)$(CXX) $(LDFLAGS) -o $O/$(TARGET)  $(OBJS) $(EXTRA_OBJS) $(AS_NEEDED_OFF) $(WHOLE_ARCHIVE_ON) $(LIBS) $(WHOLE_ARCHIVE_OFF) $(OMNETPP_LIBS)
 
 .PHONY: all clean cleanall depend msgheaders
 
@@ -109,29 +113,33 @@ $O/$(TARGET): $(OBJS)  $(wildcard $(EXTRA_OBJS)) Makefile
 
 $O/%.o: %.cc $(COPTS_FILE)
 	@$(MKPATH) $(dir $@)
-	$(CXX) -c $(COPTS) -o $@ $<
+	$(qecho) "$<"
+	$(Q)$(CXX) -c $(COPTS) -o $@ $<
 
 %_m.cc %_m.h: %.msg
-	$(MSGC) -s _m.cc $(MSGCOPTS) $?
+	$(qecho) MSGC: $<
+	$(Q)$(MSGC) -s _m.cc $(MSGCOPTS) $?
 
 msgheaders: $(MSGFILES:.msg=_m.h)
 
 clean:
-	-rm -rf $O
-	-rm -f OmnetppTrafficHandlingSimulation OmnetppTrafficHandlingSimulation.exe libOmnetppTrafficHandlingSimulation.so libOmnetppTrafficHandlingSimulation.a libOmnetppTrafficHandlingSimulation.dll libOmnetppTrafficHandlingSimulation.dylib
-	-rm -f ./*_m.cc ./*_m.h
-	-rm -f algorithms/*_m.cc algorithms/*_m.h
-	-rm -f algorithms/AdmissionControl/*_m.cc algorithms/AdmissionControl/*_m.h
-	-rm -f algorithms/Profiler/*_m.cc algorithms/Profiler/*_m.h
-	-rm -f algorithms/Scheduler/*_m.cc algorithms/Scheduler/*_m.h
-	-rm -f generators/*_m.cc generators/*_m.h
-	-rm -f packet/*_m.cc packet/*_m.h
+	$(qecho) Cleaning...
+	$(Q)-rm -rf $O
+	$(Q)-rm -f OmnetppTrafficHandlingSimulation OmnetppTrafficHandlingSimulation.exe libOmnetppTrafficHandlingSimulation.so libOmnetppTrafficHandlingSimulation.a libOmnetppTrafficHandlingSimulation.dll libOmnetppTrafficHandlingSimulation.dylib
+	$(Q)-rm -f ./*_m.cc ./*_m.h
+	$(Q)-rm -f algorithms/*_m.cc algorithms/*_m.h
+	$(Q)-rm -f algorithms/AdmissionControl/*_m.cc algorithms/AdmissionControl/*_m.h
+	$(Q)-rm -f algorithms/Profiler/*_m.cc algorithms/Profiler/*_m.h
+	$(Q)-rm -f algorithms/Scheduler/*_m.cc algorithms/Scheduler/*_m.h
+	$(Q)-rm -f generators/*_m.cc generators/*_m.h
+	$(Q)-rm -f packet/*_m.cc packet/*_m.h
 
 cleanall: clean
-	-rm -rf $(PROJECT_OUTPUT_DIR)
+	$(Q)-rm -rf $(PROJECT_OUTPUT_DIR)
 
 depend:
-	$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc algorithms/*.cc algorithms/AdmissionControl/*.cc algorithms/Profiler/*.cc algorithms/Scheduler/*.cc generators/*.cc packet/*.cc
+	$(qecho) Creating dependencies...
+	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc algorithms/*.cc algorithms/AdmissionControl/*.cc algorithms/Profiler/*.cc algorithms/Scheduler/*.cc generators/*.cc packet/*.cc
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/Txc.o: Txc.cc \
@@ -144,14 +152,28 @@ $O/algorithms/Profiler/Profiler.o: algorithms/Profiler/Profiler.cc \
 	algorithms/Profiler/Profiler.h \
 	packet/PacketPriority.h \
 	packet/SimplePacket_m.h
+$O/algorithms/Scheduler/DeficitRoundRobin.o: algorithms/Scheduler/DeficitRoundRobin.cc \
+	algorithms/Scheduler/DeficitRoundRobin.h \
+	algorithms/Scheduler/Scheduler.h \
+	packet/PacketPriority.h \
+	packet/SimplePacket_m.h
 $O/algorithms/Scheduler/Scheduler.o: algorithms/Scheduler/Scheduler.cc \
 	algorithms/Scheduler/Scheduler.h \
+	packet/PacketPriority.h \
+	packet/SimplePacket_m.h
+$O/algorithms/Scheduler/SchedulerFIFO.o: algorithms/Scheduler/SchedulerFIFO.cc \
+	algorithms/Scheduler/Scheduler.h \
+	algorithms/Scheduler/SchedulerFIFO.h \
 	packet/PacketPriority.h \
 	packet/SimplePacket_m.h
 $O/algorithms/Scheduler/SchedulerRoundRobin.o: algorithms/Scheduler/SchedulerRoundRobin.cc \
 	algorithms/Scheduler/Scheduler.h \
 	algorithms/Scheduler/SchedulerRoundRobin.h \
-	generators/PacketGenerator.h \
+	packet/PacketPriority.h \
+	packet/SimplePacket_m.h
+$O/algorithms/Scheduler/SchedulerWeightedRoundRobin.o: algorithms/Scheduler/SchedulerWeightedRoundRobin.cc \
+	algorithms/Scheduler/Scheduler.h \
+	algorithms/Scheduler/SchedulerWeightedRoundRobin.h \
 	packet/PacketPriority.h \
 	packet/SimplePacket_m.h
 $O/generators/ExponentialPacketGenerator.o: generators/ExponentialPacketGenerator.cc \

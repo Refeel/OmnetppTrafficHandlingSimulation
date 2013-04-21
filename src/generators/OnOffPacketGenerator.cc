@@ -26,7 +26,7 @@ OnOffPacketGenerator::~OnOffPacketGenerator() {
 }
 
 simtime_t OnOffPacketGenerator::getDelay() {
-    simtime_t time = poisson(10); //par("onOffDelayTime");
+    simtime_t time = poisson(par("onOffDelayTime").doubleValue());
     return time;
 }
 
@@ -46,7 +46,9 @@ SimplePacket *OnOffPacketGenerator::generatePacket() {
     sp->setSRC(src);
     sp->setSessionId(0);
     sp->setPacketId(this->_packetsCount++);
-    sp->setPriority(NORMAL);
+    sp->setPriority(this->_packetsPriority);
+    sp->setLength(intuniform(1, this->_packetsLength));
+    sp->setPayload("payload");
 
     return sp;
 }
@@ -102,7 +104,7 @@ void OnOffPacketGenerator::updateState() {
     std::string buf;
     if(this->_state == NONE) {
         this->_state = ON;
-        this->_stateEndTime = simTime()+par("onOffStateDurationTime");
+        this->_stateEndTime = simTime() + (int)par("onOffStateDurationTime");
         sprintf((char*) buf.c_str(), "State changed to ON, endTime = %lf \n", this->_stateEndTime.dbl());
         EV << buf.c_str();
         bubble(buf.c_str());

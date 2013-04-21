@@ -27,7 +27,7 @@ PoissonPacketGenerator::~PoissonPacketGenerator() {
 }
 
 simtime_t PoissonPacketGenerator::getDelay() {
-    simtime_t time = poisson(40);//par("poissonDelayTime");
+    simtime_t time = poisson(par("poissonDelayTime").doubleValue());
     return time;
 }
 
@@ -47,7 +47,9 @@ SimplePacket *PoissonPacketGenerator::generatePacket() {
     sp->setSRC(src);
     sp->setSessionId(0);
     sp->setPacketId(this->_packetsCount++);
-    sp->setPriority(NORMAL);
+    sp->setPriority(this->_packetsPriority);
+    sp->setLength(intuniform(1, this->_packetsLength));
+    sp->setPayload("payload");
 
     return sp;
 }

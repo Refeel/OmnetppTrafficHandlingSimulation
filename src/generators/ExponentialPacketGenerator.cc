@@ -27,7 +27,7 @@ ExponentialPacketGenerator::~ExponentialPacketGenerator() {
 }
 
 simtime_t ExponentialPacketGenerator::getDelay() {
-    simtime_t time = exponential(20);//par("exponentialDelayTime");
+    simtime_t time = exponential(par("exponentialDelayTime").doubleValue());
     return time;
 }
 
@@ -48,7 +48,9 @@ SimplePacket *ExponentialPacketGenerator::generatePacket() {
     sp->setSRC(src);
     sp->setSessionId(0);
     sp->setPacketId(this->_packetsCount++);
-    sp->setPriority(NORMAL);
+    sp->setPriority(this->_packetsPriority);
+    sp->setLength(intuniform(1, this->_packetsLength));
+    sp->setPayload("payload");
 
     return sp;
 }

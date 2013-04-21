@@ -46,13 +46,13 @@ network TestNetworkFull
         }
 
     submodules:
-        admissionControl: AdmissionControl { // TODO
+        admissionControl: AdmissionControl { // CHOOSE IMPLEMENTATION OF ADMISSION CONTROL
             @display("p=237,146");
         }
-        profiler: Profiler { // TODO
+        profiler: Profiler { // CHOOSE IMPLEMENTATION OF PROFILER
             @display("p=333,146");
         }
-        scheduler: Scheduler {
+        scheduler: SchedulerDeficitRoundRobin {    // CHOOSE IMPLEMENTATION OF SCHEDULER
 
             @display("p=449,146");
         }

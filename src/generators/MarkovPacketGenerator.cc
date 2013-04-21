@@ -46,7 +46,9 @@ SimplePacket *MarkovPacketGenerator::generatePacket() {
     sp->setSRC(src);
     sp->setSessionId(0);
     sp->setPacketId(this->_packetsCount++);
-    sp->setPriority(NORMAL);
+    sp->setPriority(this->_packetsPriority);
+    sp->setLength(intuniform(1, this->_packetsLength));
+    sp->setPayload("payload");
 
     return sp;
 }
@@ -91,7 +93,7 @@ void MarkovPacketGenerator::handleMessage(cMessage *msg) {
 void MarkovPacketGenerator::updateState() {
     std::string buf;
     if(simTime() >= _stateEndTime) {
-        this->_stateEndTime = simTime()+ intuniform(500,1500); //par("markovStateDurationTime");
+        this->_stateEndTime = simTime()+ intuniform(par("markovMinStateDurationTime"),par("markovMaxStateDurationTime"));
         sprintf((char*) buf.c_str(), "State changed, endTime = %lf \n", this->_stateEndTime.dbl());
         _lambda = (rand()%((int)par("statesNum"))+1) * ((int)par("spaceBeetweenStates"));
         EV << buf.c_str();

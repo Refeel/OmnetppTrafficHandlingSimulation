@@ -43,7 +43,7 @@ void AdmissionControlFrontDrop::handleMessage(cMessage *msg) {
             int queueLength = packetQueue.length();
             if(queueLength >= maxPacketsInQueue) {
                 packetQueue.pop();
-                ev << "DropTail: Delete Message" << endl;
+                ev << "DropRandom: Delete Message" << endl;
                 packetQueue.insert(check_and_cast<SimplePacket *> (msg));
             }
             else{

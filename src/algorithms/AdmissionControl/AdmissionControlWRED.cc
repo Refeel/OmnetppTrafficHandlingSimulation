@@ -13,11 +13,11 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "AdmissionControlRandomDrop.h"
+#include "AdmissionControlWRED.h"
 
 namespace omnetpptraffichandlingsimulation {
 
-void AdmissionControlRandomDrop::handleMessage(cMessage *msg) {
+void AdmissionControlWRED::handleMessage(cMessage *msg) {
 
     if(msg==this->msgServiced)
     {
@@ -41,11 +41,12 @@ void AdmissionControlRandomDrop::handleMessage(cMessage *msg) {
     }
     else {
             int queueLength = packetQueue.length();
-            if(queueLength >= maxPacketsInQueue) {
-                int index = intrand(queueLength-2)+1;
-                packetQueue.remove(packetQueue.get(index));
-                ev << "DropRandom: Delete Message" << endl;
-                packetQueue.insert(check_and_cast<SimplePacket *> (msg));
+            int priority=(check_and_cast<SimplePacket *> (msg)->getPriority())+1;
+            double dropProbability = ((double)intuniform(15*priority, (25*priority)-1)) / 100;
+
+            if(dropProbability <= ((double)queueLength)/maxPacketsInQueue) {
+                delete(msg);
+                ev << "WRED: Delete Message" << endl;
             }
             else{
                 packetQueue.insert(check_and_cast<SimplePacket *> (msg));
@@ -53,3 +54,5 @@ void AdmissionControlRandomDrop::handleMessage(cMessage *msg) {
     }
 
 }
+
+} /* namespace omnetpptraffichandlingsimulation */

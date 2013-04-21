@@ -38,6 +38,7 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 OBJS = \
     $O/Txc.o \
     $O/algorithms/AdmissionControl/AdmissionControl.o \
+    $O/algorithms/AdmissionControl/AdmissionControlTailDrop.o \
     $O/algorithms/Profiler/Profiler.o \
     $O/algorithms/Scheduler/DeficitRoundRobin.o \
     $O/algorithms/Scheduler/Scheduler.o \
@@ -146,6 +147,11 @@ $O/Txc.o: Txc.cc \
 	Txc.h
 $O/algorithms/AdmissionControl/AdmissionControl.o: algorithms/AdmissionControl/AdmissionControl.cc \
 	algorithms/AdmissionControl/AdmissionControl.h \
+	packet/PacketPriority.h \
+	packet/SimplePacket_m.h
+$O/algorithms/AdmissionControl/AdmissionControlTailDrop.o: algorithms/AdmissionControl/AdmissionControlTailDrop.cc \
+	algorithms/AdmissionControl/AdmissionControl.h \
+	algorithms/AdmissionControl/AdmissionControlTailDrop.h \
 	packet/PacketPriority.h \
 	packet/SimplePacket_m.h
 $O/algorithms/Profiler/Profiler.o: algorithms/Profiler/Profiler.cc \

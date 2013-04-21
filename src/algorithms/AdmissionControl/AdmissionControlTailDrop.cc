@@ -27,7 +27,8 @@ void AdmissionControlTailDrop::handleMessage(cMessage *msg) {
         }
         else
         {
-            simtime_t serviceTime = serviceMsg(check_and_cast<SimplePacket *> (msg));
+
+            simtime_t serviceTime = serviceMsg(check_and_cast<SimplePacket *>(packetQueue.front()));
             packetQueue.pop();
             isMsgServiced = true;
             scheduleAt(simTime() + serviceTime, msgServiced);

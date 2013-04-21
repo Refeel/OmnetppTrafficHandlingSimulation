@@ -24,7 +24,6 @@ class AdmissionControlTailDrop: public AdmissionControl {
 
 protected:
     virtual void handleMessage(cMessage *msg);
-    virtual void finish();
 };
 
 } /* namespace omnetpptraffichandlingsimulation */

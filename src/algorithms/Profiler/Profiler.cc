@@ -24,17 +24,7 @@ void Profiler::initialize() {
 }
 
 void Profiler::handleMessage(cMessage *msg) {
-
-
-    SimplePacket *sPacket = check_and_cast<SimplePacket *>(msg); // dynamic cast
-
-    if (sPacket->getDST() == getIndex()) {
-        EV << "Packet " << sPacket << " arrived\n";
-
-        delete sPacket;
-    }
-
-
+    send(msg, "out", 0);
 }
 
 void Profiler::finish() {

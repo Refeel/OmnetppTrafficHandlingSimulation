@@ -33,9 +33,11 @@ protected:
 private:
     int cycle=0;
     std::vector<double> weights;
-    double meanPacketLen;
+    std::vector<double> meanPacketLens;
 
 };
+
+Define_Module(SchedulerWeightedRoundRobin);
 
 } /* namespace omnetpptraffichandlingsimulation */
 #endif /* SCHEDULERWEIGHTEDROUNDROBIN_H_ */

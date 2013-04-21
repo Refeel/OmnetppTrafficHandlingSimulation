@@ -33,19 +33,19 @@ void DeficitRoundRobin::initialize() {
     for(int i=0; i<numOfPriorityClasses; i++)
         deficits[i] = 0;
 
+    lengthQuant = (int)par("lengthQuant");  // quant of bytes
+
 }
 
-void DeficitRoundRobin::handleMessage(cMessage *msg) {
-
-        /*if(msg==this->msgServiced)
+void DeficitRoundRobin::handleMessage(cMessage *msg)
+{
+        if(msg==this->msgServiced)
         {
-            for(int i=0;i<numOfPriorityClasses; i++) {
-                cycle = (cycle + 1) % numOfPriorityClasses;
-                if(!(packetQueues->at(cycle)->empty()))
-                    break;
-            }
+            cycle = (cycle + 1) % numOfPriorityClasses;
 
             std::queue <SimplePacket *> *queue = packetQueues->at(cycle);
+
+            deficits[cycle] += lengthQuant;
 
             if(queue->empty())
             {
@@ -55,10 +55,12 @@ void DeficitRoundRobin::handleMessage(cMessage *msg) {
             {
                 simtime_t serviceTime = 0;
 
-                for(int i=0; i<weights[cycle]; i++) {
-                    if(!queue->empty())
+                for(int i=0; i < queue->size(); i++)
+                {
+                    if(deficits[cycle] >= queue->front()->getLength())
                     {
                         serviceTime += serviceMsg(queue->front());
+                        deficits[cycle] -= queue->front()->getLength();
                         queue->pop();
                     }
                     else
@@ -69,16 +71,21 @@ void DeficitRoundRobin::handleMessage(cMessage *msg) {
                 scheduleAt(simTime() + serviceTime, msgServiced);
             }
         }
-        else if(!isMsgServiced) {
+        else if(!isMsgServiced)
+        {
             simtime_t serviceTime = serviceMsg(check_and_cast<SimplePacket *> (msg));
             isMsgServiced = true;
             scheduleAt(simTime() + serviceTime, msgServiced);
         }
-        else {
+        else
+        {
             SimplePacket *sp = check_and_cast<SimplePacket *> (msg);
-            packetQueues->at(sp->getPriority())->push(sp);
 
-        }*/
+            if(packetQueues->at(sp->getPriority())->size() < this->maxPacketsInQueue) // if queue is not full
+                packetQueues->at(sp->getPriority())->push(sp);
+            else    // else reject packet
+                sp = NULL;
+        }
 
 }
 

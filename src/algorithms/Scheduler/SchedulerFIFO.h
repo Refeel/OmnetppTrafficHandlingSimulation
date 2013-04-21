@@ -29,5 +29,7 @@ protected:
     virtual void handleMessage(cMessage *msg);  // to override
 };
 
+Define_Module(SchedulerFIFO);
+
 } /* namespace omnetpptraffichandlingsimulation */
 #endif /* SCHEDULERFIFO_H_ */

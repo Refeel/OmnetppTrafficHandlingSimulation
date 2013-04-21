@@ -29,15 +29,20 @@ SchedulerWeightedRoundRobin::~SchedulerWeightedRoundRobin() {
 void SchedulerWeightedRoundRobin::initialize() {
     Scheduler::initialize();
 
-    meanPacketLen = par("WRR_meanPacketLen");
-    const char* str = par("WRR_weights");
+    const char *s = par("WRR_meanPacketLens");
+    meanPacketLens = cStringTokenizer(s).asDoubleVector();
+
+    if(meanPacketLens.size() != numOfPriorityClasses)
+        throw cRuntimeError("Mean packet lengths vector and numOfPriorityClasses does not match");
+
+    const char *str = par("WRR_weights");
     weights = cStringTokenizer(str).asDoubleVector();
 
     if(weights.size() != numOfPriorityClasses)
             throw cRuntimeError("Weight vector and numOfPriorityClasses does not match");
 
     for(int i=0;i<numOfPriorityClasses;i++)
-        weights[i] /= weights[i] / meanPacketLen;
+        weights[i] /= weights[i] / meanPacketLens[i];
 
     double minWeight = *std::min_element(weights.begin(),weights.end());
 
@@ -66,14 +71,11 @@ void SchedulerWeightedRoundRobin::handleMessage(cMessage *msg) {
             {
                 simtime_t serviceTime = 0;
 
-                for(int i=0; i<weights[cycle]; i++) {
-                    if(!queue->empty())
-                    {
-                        serviceTime += serviceMsg(queue->front());
-                        queue->pop();
-                    }
-                    else
-                        break;
+                int limit = std::min(queue->size(), (unsigned int)weights[cycle]);
+                for(int i=0; i<limit; i++)
+                {
+                    serviceTime += serviceMsg(queue->front());
+                    queue->pop();
                 }
 
                 isMsgServiced = true;
@@ -87,7 +89,11 @@ void SchedulerWeightedRoundRobin::handleMessage(cMessage *msg) {
         }
         else {
             SimplePacket *sp = check_and_cast<SimplePacket *> (msg);
-            packetQueues->at(sp->getPriority())->push(sp);
+
+            if(packetQueues->at(sp->getPriority())->size() < this->maxPacketsInQueue) // if queue is not full
+                packetQueues->at(sp->getPriority())->push(sp);
+            else    // else reject packet
+                sp = NULL;
 
         }
 

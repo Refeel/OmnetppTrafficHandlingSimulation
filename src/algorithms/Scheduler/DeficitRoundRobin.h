@@ -32,7 +32,10 @@ protected:
 private:
     int cycle=0;
     std::vector<double> deficits;
+    int lengthQuant;
 };
+
+Define_Module(DeficitRoundRobin);
 
 } /* namespace omnetpptraffichandlingsimulation */
 #endif /* DEFICITROUNDROBIN_H_ */

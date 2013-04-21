@@ -49,7 +49,11 @@ void SchedulerRoundRobin::handleMessage(cMessage *msg) {
         }
         else {
             SimplePacket *sp = check_and_cast<SimplePacket *> (msg);
-            packetQueues->at(sp->getPriority())->push(sp);
+
+            if(packetQueues->at(sp->getPriority())->size() < this->maxPacketsInQueue) // if queue is not full
+                packetQueues->at(sp->getPriority())->push(sp);
+            else    // else reject packet
+                sp = NULL;
 
         }
 

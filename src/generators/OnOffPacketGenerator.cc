@@ -32,20 +32,18 @@ simtime_t OnOffPacketGenerator::getDelay() {
 
 SimplePacket *OnOffPacketGenerator::generatePacket() {
 
-    int src = getIndex();
-    int n = size();
-    int dest = intuniform(0,n-2);
-    if (dest>=src) dest++;
+    int dest = 0;
+    int src = 0;
 
     char msgname[20];
-    sprintf(msgname, "tic-%d-to-%d", src, dest);
+    sprintf(msgname, "OnOff%d", this->_packetsCount++);
 
     SimplePacket *sp = new SimplePacket(msgname);
 
     sp->setDST(dest);
     sp->setSRC(src);
     sp->setSessionId(0);
-    sp->setPacketId(this->_packetsCount++);
+    sp->setPacketId(this->_packetsCount);
     sp->setPriority(this->_packetsPriority);
     sp->setLength(intuniform(1, this->_packetsLength));
     sp->setPayload("payload");

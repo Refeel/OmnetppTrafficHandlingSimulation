@@ -38,7 +38,7 @@ public:
     private:
         void updateState();
 
-        int _lambda;
+        volatile int _lambda;
 
 
     };

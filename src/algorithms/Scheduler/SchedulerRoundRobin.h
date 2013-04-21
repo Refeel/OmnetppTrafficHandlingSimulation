@@ -28,5 +28,7 @@ private:
 
 };
 
+Define_Module(SchedulerRoundRobin);
+
 } /* namespace omnetpptrafficgenerators */
 #endif /* SCHEDULERROUNDROBIN_H_ */

@@ -52,7 +52,7 @@ network TestNetworkFull
         profiler: Profiler { // CHOOSE IMPLEMENTATION OF PROFILER
             @display("p=333,146");
         }
-        scheduler: SchedulerDeficitRoundRobin {    // CHOOSE IMPLEMENTATION OF SCHEDULER
+        scheduler: SchedulerWeightedRoundRobin {    // CHOOSE IMPLEMENTATION OF SCHEDULER
 
             @display("p=449,146");
         }

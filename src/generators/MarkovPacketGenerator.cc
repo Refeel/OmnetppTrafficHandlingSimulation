@@ -26,26 +26,24 @@ MarkovPacketGenerator::~MarkovPacketGenerator() {
 }
 
 simtime_t MarkovPacketGenerator::getDelay() {
-    simtime_t time = poisson(_lambda);
+    simtime_t time = poisson(_lambda);  // volatile _lambda
     return time;
 }
 
 SimplePacket *MarkovPacketGenerator::generatePacket() {
 
-    int src = getIndex();
-    int n = size();
-    int dest = intuniform(0,n-2);
-    if (dest>=src) dest++;
+    int dest = 0;
+    int src = 0;
 
     char msgname[20];
-    sprintf(msgname, "tic-%d-to-%d", src, dest);
+    sprintf(msgname, "MMPP%d", this->_packetsCount++);
 
     SimplePacket *sp = new SimplePacket(msgname);
 
     sp->setDST(dest);
     sp->setSRC(src);
     sp->setSessionId(0);
-    sp->setPacketId(this->_packetsCount++);
+    sp->setPacketId(this->_packetsCount);
     sp->setPriority(this->_packetsPriority);
     sp->setLength(intuniform(1, this->_packetsLength));
     sp->setPayload("payload");
@@ -93,7 +91,7 @@ void MarkovPacketGenerator::handleMessage(cMessage *msg) {
 void MarkovPacketGenerator::updateState() {
     std::string buf;
     if(simTime() >= _stateEndTime) {
-        this->_stateEndTime = simTime()+ intuniform(par("markovMinStateDurationTime"),par("markovMaxStateDurationTime"));
+        this->_stateEndTime = simTime()+ intuniform((int)par("markovMinStateDurationTime"), (int)par("markovMaxStateDurationTime"));
         sprintf((char*) buf.c_str(), "State changed, endTime = %lf \n", this->_stateEndTime.dbl());
         _lambda = (rand()%((int)par("statesNum"))+1) * ((int)par("spaceBeetweenStates"));
         EV << buf.c_str();

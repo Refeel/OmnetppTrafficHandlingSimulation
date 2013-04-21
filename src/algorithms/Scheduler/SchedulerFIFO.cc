@@ -48,7 +48,10 @@ void SchedulerFIFO::handleMessage(cMessage *msg) {
         scheduleAt(simTime() + serviceTime, msgServiced);
     }
     else {
-        packetQueue->push(check_and_cast<SimplePacket *> (msg));
+        if(packetQueue->size() < this->maxPacketsInQueue)   // if queue is not full
+            packetQueue->push(check_and_cast<SimplePacket *> (msg));
+        else // reject packet
+            msg = NULL;
     }
 
 }

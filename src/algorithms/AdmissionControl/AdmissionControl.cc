@@ -9,7 +9,7 @@
 
 namespace omnetpptraffichandlingsimulation {
 
-simtime_t serviceMsg(SimplePacket *sp) {
+simtime_t AdmissionControl::serviceMsg(SimplePacket *sp) {
     return (0.1 * sp->getLength());  // service time proportional to packet length
 }
 

@@ -10,7 +10,7 @@
 
 #include <SimplePacket_m.h>
 #include <omnetpp.h>
-#include <PacketPriority.h>
+//#include <PacketPriority.h>
 
 
 namespace omnetpptraffichandlingsimulation {

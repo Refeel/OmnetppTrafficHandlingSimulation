@@ -16,9 +16,9 @@
 #ifndef ADMISSIONCONTROLWRED_H_
 #define ADMISSIONCONTROLWRED_H_
 
-namespace omnetpptraffichandlingsimulation {
-
 #include "AdmissionControl.h"
+
+namespace omnetpptraffichandlingsimulation {
 
 class AdmissionControlWRED: public AdmissionControl {
 

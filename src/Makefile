@@ -38,7 +38,11 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 OBJS = \
     $O/Txc.o \
     $O/algorithms/AdmissionControl/AdmissionControl.o \
+    $O/algorithms/AdmissionControl/AdmissionControlFrontDrop.o \
+    $O/algorithms/AdmissionControl/AdmissionControlRandomDrop.o \
+    $O/algorithms/AdmissionControl/AdmissionControlRED.o \
     $O/algorithms/AdmissionControl/AdmissionControlTailDrop.o \
+    $O/algorithms/AdmissionControl/AdmissionControlWRED.o \
     $O/algorithms/Profiler/DualLeakyBucketProfiler.o \
     $O/algorithms/Profiler/HTBProfiler.o \
     $O/algorithms/Profiler/LeakyBucketProfiler.o \
@@ -151,12 +155,26 @@ $O/Txc.o: Txc.cc \
 	Txc.h
 $O/algorithms/AdmissionControl/AdmissionControl.o: algorithms/AdmissionControl/AdmissionControl.cc \
 	algorithms/AdmissionControl/AdmissionControl.h \
-	packet/PacketPriority.h \
+	packet/SimplePacket_m.h
+$O/algorithms/AdmissionControl/AdmissionControlFrontDrop.o: algorithms/AdmissionControl/AdmissionControlFrontDrop.cc \
+	algorithms/AdmissionControl/AdmissionControl.h \
+	algorithms/AdmissionControl/AdmissionControlFrontDrop.h \
+	packet/SimplePacket_m.h
+$O/algorithms/AdmissionControl/AdmissionControlRED.o: algorithms/AdmissionControl/AdmissionControlRED.cc \
+	algorithms/AdmissionControl/AdmissionControl.h \
+	algorithms/AdmissionControl/AdmissionControlRED.h \
+	packet/SimplePacket_m.h
+$O/algorithms/AdmissionControl/AdmissionControlRandomDrop.o: algorithms/AdmissionControl/AdmissionControlRandomDrop.cc \
+	algorithms/AdmissionControl/AdmissionControl.h \
+	algorithms/AdmissionControl/AdmissionControlRandomDrop.h \
 	packet/SimplePacket_m.h
 $O/algorithms/AdmissionControl/AdmissionControlTailDrop.o: algorithms/AdmissionControl/AdmissionControlTailDrop.cc \
 	algorithms/AdmissionControl/AdmissionControl.h \
 	algorithms/AdmissionControl/AdmissionControlTailDrop.h \
-	packet/PacketPriority.h \
+	packet/SimplePacket_m.h
+$O/algorithms/AdmissionControl/AdmissionControlWRED.o: algorithms/AdmissionControl/AdmissionControlWRED.cc \
+	algorithms/AdmissionControl/AdmissionControl.h \
+	algorithms/AdmissionControl/AdmissionControlWRED.h \
 	packet/SimplePacket_m.h
 $O/algorithms/Profiler/DualLeakyBucketProfiler.o: algorithms/Profiler/DualLeakyBucketProfiler.cc \
 	algorithms/Profiler/DualLeakyBucketProfiler.h \

@@ -27,10 +27,9 @@ protected:
     virtual void finish();
 
 
-    cMessage *msgServiced;
+
     cMessage *sendMessage;
     cQueue packetQueue;
-    bool isMsgServiced;
     int maxPacketsInQueue;
 
 };

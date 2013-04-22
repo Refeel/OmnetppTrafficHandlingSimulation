@@ -10,6 +10,9 @@
 namespace omnetpptraffichandlingsimulation {
 
 
+simtime_t AdmissionControl::serviceMsg(SimplePacket *sp) {
+    return (0.01 * sp->getLength());  // service time proportional to packet length
+}
 
 AdmissionControl::AdmissionControl() {
     // TODO Auto-generated constructor stub
@@ -23,8 +26,9 @@ AdmissionControl::~AdmissionControl() {
 
 void AdmissionControl::initialize() {
     this->sendMessage = new cMessage("msgSended");
+    this->msgServiced = new cMessage("msgServiced");
     packetQueue.setName("queue");
-
+    isMsgServiced=false;
     maxPacketsInQueue = 20;
 
 

@@ -19,26 +19,25 @@ namespace omnetpptraffichandlingsimulation {
 
 void AdmissionControlTailDrop::handleMessage(cMessage *msg) {
 
-    if(msg==this->msgServiced)
-    {
-        if(packetQueue.isEmpty())
+    if (msg==sendMessage)
         {
-            isMsgServiced = false;
+            send( msgServiced, "out" );
+            if (packetQueue.empty())
+            {
+                msgServiced = NULL;
+            }
+            else
+            {
+                msgServiced = (cMessage *) packetQueue.pop();
+                scheduleAt( simTime()+3.0, sendMessage );
+            }
         }
-        else
+        else if (!msgServiced)
         {
 
-            simtime_t serviceTime = serviceMsg(check_and_cast<SimplePacket *>(packetQueue.front()));
-            packetQueue.pop();
-            isMsgServiced = true;
-            scheduleAt(simTime() + serviceTime, msgServiced);
+            msgServiced = msg;
+            scheduleAt( simTime()+3.0, sendMessage );
         }
-    }
-    else if(!isMsgServiced) {
-        simtime_t serviceTime = serviceMsg(check_and_cast<SimplePacket *> (msg));
-        isMsgServiced = true;
-        scheduleAt(simTime() + serviceTime, msgServiced);
-    }
     else {
             int queueLength = packetQueue.length();
             if(queueLength >= maxPacketsInQueue) {

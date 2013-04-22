@@ -61,19 +61,20 @@ void SchedulerDeficitRoundRobin::handleMessage(cMessage *msg)
             {
                 simtime_t serviceTime = 0;
 
-                for(unsigned int i=0; i < queue->size(); i++)
+                size_t qsize = queue->size();
+                for(unsigned int i=0; i < qsize; i++)
                 {
                     if(deficits[cycle] >= queue->front()->getLength())
                     {
                         serviceTime += serviceMsg(queue->front());
                         deficits[cycle] -= queue->front()->getLength();
                         queue->pop();
+                        isMsgServiced = true;
                     }
                     else
                         break;
                 }
 
-                isMsgServiced = true;
                 scheduleAt(simTime() + serviceTime, msgServiced);
 
                 EV << "\ncycle " << cycle;

@@ -31,6 +31,8 @@ void AdmissionControl::initialize() {
     isMsgServiced=false;
     maxPacketsInQueue = 20;
 
+    scheduleAt(simTime(), sendMessage);
+
 
 }
 

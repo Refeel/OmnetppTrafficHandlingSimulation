@@ -24,7 +24,7 @@ void AdmissionControlTailDrop::handleMessage(cMessage *msg) {
 
         if (packetQueue.getLength() > 0)
             send(check_and_cast<SimplePacket *>(packetQueue.pop()), "out", 0);
-
+            EV<<"Current AdmissionControl size: " << packetQueue.length();
             scheduleAt(simTime() + 10, sendMessage);
 
     }
@@ -38,6 +38,7 @@ void AdmissionControlTailDrop::handleMessage(cMessage *msg) {
             }
             else{
                 packetQueue.insert(check_and_cast<SimplePacket *> (msg));
+                EV<<"Current AdmissionControl size: " << packetQueue.length();
             }
     }
 

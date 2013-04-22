@@ -19,37 +19,29 @@ namespace omnetpptraffichandlingsimulation {
 
 void AdmissionControlWRED::handleMessage(cMessage *msg) {
 
-    if(msg==this->msgServiced)
-    {
-        if(packetQueue.isEmpty())
-        {
-            isMsgServiced = false;
-        }
-        else
+    if (msg==sendMessage)
         {
 
-            simtime_t serviceTime = serviceMsg(check_and_cast<SimplePacket *>(packetQueue.front()));
-            packetQueue.pop();
-            isMsgServiced = true;
-            scheduleAt(simTime() + serviceTime, msgServiced);
+            if (packetQueue.getLength() > 0)
+                send(check_and_cast<SimplePacket *>(packetQueue.pop()), "out", 0);
+                EV<<"Current AdmissionControl size: " << packetQueue.length();
+                scheduleAt(simTime() + 10, sendMessage);
+
         }
-    }
-    else if(!isMsgServiced) {
-        simtime_t serviceTime = serviceMsg(check_and_cast<SimplePacket *> (msg));
-        isMsgServiced = true;
-        scheduleAt(simTime() + serviceTime, msgServiced);
-    }
     else {
             int queueLength = packetQueue.length();
             int priority=(check_and_cast<SimplePacket *> (msg)->getPriority())+1;
-            double dropProbability = ((double)intuniform(15*priority, (25*priority)-1)) / 100;
+            double dropProbability = ((double)intuniform(15*priority, (25*priority))) / 100;
 
             if(dropProbability <= ((double)queueLength)/maxPacketsInQueue) {
                 delete(msg);
                 ev << "WRED: Delete Message" << endl;
+                EV<<"Probability: " << dropProbability;
+                EV<<" Current AdmissionControl size: " << packetQueue.length();
             }
             else{
                 packetQueue.insert(check_and_cast<SimplePacket *> (msg));
+                EV<<"Current AdmissionControl size: " << packetQueue.length();
             }
     }
 

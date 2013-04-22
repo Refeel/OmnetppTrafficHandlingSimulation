@@ -19,26 +19,15 @@ namespace omnetpptraffichandlingsimulation {
 
 void AdmissionControlRandomDrop::handleMessage(cMessage *msg) {
 
-    if(msg==this->msgServiced)
-    {
-        if(packetQueue.isEmpty())
-        {
-            isMsgServiced = false;
-        }
-        else
+    if (msg==sendMessage)
         {
 
-            simtime_t serviceTime = serviceMsg(check_and_cast<SimplePacket *>(packetQueue.front()));
-            packetQueue.pop();
-            isMsgServiced = true;
-            scheduleAt(simTime() + serviceTime, msgServiced);
+            if (packetQueue.getLength() > 0)
+                send(check_and_cast<SimplePacket *>(packetQueue.pop()), "out", 0);
+                EV<<"Current AdmissionControl size: " << packetQueue.length();
+                scheduleAt(simTime() + 10, sendMessage);
+
         }
-    }
-    else if(!isMsgServiced) {
-        simtime_t serviceTime = serviceMsg(check_and_cast<SimplePacket *> (msg));
-        isMsgServiced = true;
-        scheduleAt(simTime() + serviceTime, msgServiced);
-    }
     else {
             int queueLength = packetQueue.length();
             if(queueLength >= maxPacketsInQueue) {
@@ -46,9 +35,11 @@ void AdmissionControlRandomDrop::handleMessage(cMessage *msg) {
                 packetQueue.remove(packetQueue.get(index));
                 ev << "DropRandom: Delete Message" << endl;
                 packetQueue.insert(check_and_cast<SimplePacket *> (msg));
+                EV<<"Current AdmissionControl size: " << packetQueue.length();
             }
             else{
                 packetQueue.insert(check_and_cast<SimplePacket *> (msg));
+                EV<<"Current AdmissionControl size: " << packetQueue.length();
             }
     }
 

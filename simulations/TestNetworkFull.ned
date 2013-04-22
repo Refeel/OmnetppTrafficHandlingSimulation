@@ -16,6 +16,11 @@
 package omnetpptraffichandlingsimulation.simulations;
 
 import omnetpptraffichandlingsimulation.AdmissionControl;
+import omnetpptraffichandlingsimulation.AdmissionControlTailDrop;
+import omnetpptraffichandlingsimulation.AdmissionControlFrontDrop;
+import omnetpptraffichandlingsimulation.AdmissionControlRandomDrop;
+import omnetpptraffichandlingsimulation.AdmissionControlRED;
+import omnetpptraffichandlingsimulation.AdmissionControlWRED;
 //TODO
 
 import omnetpptraffichandlingsimulation.Profiler;
@@ -49,7 +54,7 @@ network TestNetworkFull
         }
 
     submodules:
-        admissionControl: AdmissionControl { // CHOOSE IMPLEMENTATION OF ADMISSION CONTROL
+        admissionControl: AdmissionControlWRED { // CHOOSE IMPLEMENTATION OF ADMISSION CONTROL
             @display("p=237,146");
         }
         profiler: TokenBucketProfiler { // CHOOSE IMPLEMENTATION OF PROFILER

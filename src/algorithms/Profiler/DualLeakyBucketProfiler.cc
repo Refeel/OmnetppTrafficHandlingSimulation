@@ -30,7 +30,7 @@ void DualLeakyBucketProfiler::initialize() {
     this->capacity1 = par("capacity1");
     this->capacity2 = par("capacity2");
     this->sendDelay1 = par("sendDelay1");
-    this->sendDelay2 = par(sendDelay2);
+    this->sendDelay2 = par("sendDelay2");
     this->event1 = new cMessage("event1");
     this->event2 = new cMessage("event2");
 
@@ -48,8 +48,13 @@ void DualLeakyBucketProfiler::handleMessage(cMessage *msg) {
             bubble(buf.c_str());
             if (queue2.getLength() < capacity2)
                 queue2.insert(packet);
-            else
+            else {
                 delete packet;
+                std::string buf;
+                sprintf((char*) buf.c_str(), "Packet deleted");
+                EV<< buf.c_str();
+                bubble(buf.c_str());
+            }
         }
         scheduleAt(simTime() + this->sendDelay1, event1);
 
@@ -67,8 +72,13 @@ void DualLeakyBucketProfiler::handleMessage(cMessage *msg) {
             sprintf((char*) buf.c_str(), "Packet added to queue 1");
             EV<< buf.c_str();
             bubble(buf.c_str());
-        } else
+        } else {
             delete sPacket;
+            std::string buf;
+            sprintf((char*) buf.c_str(), "Packet deleted");
+            EV<< buf.c_str();
+            bubble(buf.c_str());
+        }
     }
 }
 

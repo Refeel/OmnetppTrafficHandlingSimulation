@@ -39,13 +39,13 @@ void TokenBucketProfiler::handleMessage(cMessage *msg) {
     if (msg == event) { // received timing message
         if (tokenCount < maxTokenNumber) {
             tokenCount++;
-            std::string buf;
-            sprintf((char*) buf.c_str(), "Token count: %d", tokenCount);
-            EV << buf.c_str();
-            bubble(buf.c_str());
             if(queue.getLength() > 0) {
                 forwardPacket(check_and_cast<SimplePacket *>(queue.pop()));
                 tokenCount--;
+                std::string buf;
+                sprintf((char*) buf.c_str(), "Packet sent from queue");
+                EV << buf.c_str();
+                bubble(buf.c_str());
             }
         }
         scheduleAt(simTime() + this->tokenPutDelay, event);

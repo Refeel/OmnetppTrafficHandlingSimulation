@@ -19,7 +19,10 @@ import omnetpptraffichandlingsimulation.AdmissionControl;
 //TODO
 
 import omnetpptraffichandlingsimulation.Profiler;
-//TODO
+import omnetpptraffichandlingsimulation.LeakyBucketProfiler;
+import omnetpptraffichandlingsimulation.DualLeakyBucketProfiler;
+import omnetpptraffichandlingsimulation.TokenBucketProfiler;
+import omnetpptraffichandlingsimulation.HTBProfiler;
 
 import omnetpptraffichandlingsimulation.Scheduler;
 import omnetpptraffichandlingsimulation.SchedulerFIFO;
@@ -49,7 +52,7 @@ network TestNetworkFull
         admissionControl: AdmissionControl { // CHOOSE IMPLEMENTATION OF ADMISSION CONTROL
             @display("p=237,146");
         }
-        profiler: Profiler { // CHOOSE IMPLEMENTATION OF PROFILER
+        profiler: TokenBucketProfiler { // CHOOSE IMPLEMENTATION OF PROFILER
             @display("p=333,146");
         }
         scheduler: SchedulerDeficitRoundRobin {    // CHOOSE IMPLEMENTATION OF SCHEDULER

@@ -48,8 +48,13 @@ void LeakyBucketProfiler::handleMessage(cMessage *msg) {
         SimplePacket *sPacket = check_and_cast<SimplePacket *>(msg); // dynamic cast
         if (queue.getLength() < this->capacity) {
             queue.insert(sPacket);
-        } else
+        } else {
             delete sPacket;
+            std::string buf;
+            sprintf((char*) buf.c_str(), "Packet deleted");
+            EV<< buf.c_str();
+            bubble(buf.c_str());
+        }
     }
 }
 

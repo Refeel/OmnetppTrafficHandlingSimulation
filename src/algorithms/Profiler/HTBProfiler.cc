@@ -34,8 +34,10 @@ void HTBProfiler::initialize() {
     this->tokenCount = new int[this->priorityNumber];
     this->queue = new cPacketQueue[this->priorityNumber];
 
-    for (int i = 0; i < this->priorityNumber; i++)
+    for (int i = 0; i < this->priorityNumber; i++) {
         tokenCount[i] = this->maxTokenNumber;
+        EV << "Token count " << i << " = " << tokenCount[i] << "\n";
+    }
 
     scheduleAt(simTime(), event);
 }
@@ -45,14 +47,15 @@ void HTBProfiler::handleMessage(cMessage *msg) {
         for (int i = 0; i < this->priorityNumber; i++) {
             if (tokenCount[i] < maxTokenNumber) {
                 tokenCount[i]++;
-                std::string buf;
-                sprintf((char*) buf.c_str(), "Token count: %d", tokenCount[i]);
-                EV<< buf.c_str();
-                bubble(buf.c_str());
+                EV << "Token count " << i << " = " << tokenCount[i] << "\n";
                 if (queue[i].getLength() > 0) {
                     forwardPacket(
                             check_and_cast<SimplePacket *>(queue[i].pop()));
                     tokenCount[i]--;
+                    std::string buf;
+                    sprintf((char*) buf.c_str(), "Packet sent from queue %d", i);
+                    EV<< buf.c_str();
+                    bubble(buf.c_str());
                 }
             }
         }
@@ -67,9 +70,13 @@ void HTBProfiler::handleMessage(cMessage *msg) {
             tokenCount[sPacket->getPriority()]--;
         } else if (checkOtherNodes(sPacket->getPriority())) {
             forwardPacket(sPacket);
+            std::string buf;
+            sprintf((char*) buf.c_str(), "Token borrowed");
+            EV<< buf.c_str();
+            bubble(buf.c_str());
         } else
             queue[sPacket->getPriority()].insert(sPacket);
-
+        EV << "Token count " << sPacket->getPriority() << " = " << tokenCount[sPacket->getPriority()] << "\n";
     }
 }
 

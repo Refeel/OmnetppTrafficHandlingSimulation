@@ -26,9 +26,9 @@ protected:
     virtual void handleMessage(cMessage *msg);  // to override
     virtual void finish();
 
-    virtual simtime_t serviceMsg(SimplePacket *sp);
 
     cMessage *msgServiced;
+    cMessage *sendMessage;
     cQueue packetQueue;
     bool isMsgServiced;
     int maxPacketsInQueue;

@@ -34,7 +34,7 @@ protected:
 private:
     cMessage *event; // pointer to the event object which we'll use for timing
     int tokenCount;
-    cPacketQueue queue;
+//    cPacketQueue queue;
 
     //PARAMS:
     int tokenPutDelay;

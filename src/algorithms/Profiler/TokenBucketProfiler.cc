@@ -27,6 +27,7 @@ TokenBucketProfiler::~TokenBucketProfiler() {
 }
 
 void TokenBucketProfiler::initialize() {
+    Profiler::initialize();
     this->tokenPutDelay = par("tokenPutDelay");
     this->maxTokenNumber = par("maxTokenNumber");
     this->event = new cMessage("event");
@@ -39,14 +40,14 @@ void TokenBucketProfiler::handleMessage(cMessage *msg) {
     if (msg == event) { // received timing message
         if (tokenCount < maxTokenNumber) {
             tokenCount++;
-            if(queue.getLength() > 0) {
-                forwardPacket(check_and_cast<SimplePacket *>(queue.pop()));
-                tokenCount--;
-                std::string buf;
-                sprintf((char*) buf.c_str(), "Packet sent from queue");
-                EV << buf.c_str();
-                bubble(buf.c_str());
-            }
+//            if(queue.getLength() > 0) {
+//                forwardPacket(check_and_cast<SimplePacket *>(queue.pop()));
+//                tokenCount--;
+//                std::string buf;
+//                sprintf((char*) buf.c_str(), "Packet sent from queue");
+//                EV << buf.c_str();
+//                bubble(buf.c_str());
+//            }
         }
         scheduleAt(simTime() + this->tokenPutDelay, event);
 
@@ -54,18 +55,28 @@ void TokenBucketProfiler::handleMessage(cMessage *msg) {
 
     else { // received true packet
         SimplePacket *sPacket = check_and_cast<SimplePacket *>(msg); // dynamic cast
+        inputHist.collect(simTime().dbl());
+        packetsSum++;
         if(tokenCount > 0) {
+            addTimeStamp();
             forwardPacket(sPacket);
             tokenCount--;
         }
-        else
-            queue.insert(sPacket);
+        else {
+//            queue.insert(sPacket);
+            delete sPacket;
+            std::string buf;
+            sprintf((char*) buf.c_str(), "Packet deleted");
+            EV<< buf.c_str();
+            bubble(buf.c_str());
+            deletedCount++;
+        }
 
     }
 }
 
 void TokenBucketProfiler::finish() {
-
+    Profiler::finish();
 }
 
 } /* namespace omnetpptraffichandlingsimulation */

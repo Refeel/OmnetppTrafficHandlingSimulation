@@ -11,6 +11,7 @@
 #include <SimplePacket_m.h>
 #include <omnetpp.h>
 #include <PacketPriority.h>
+#include <queue>
 
 
 namespace omnetpptraffichandlingsimulation {
@@ -21,12 +22,19 @@ public:
     virtual ~Profiler();
     void forwardPacket(SimplePacket *sp);
 
-
 protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);  // to override
     virtual void finish();
 
+    void addTimeStamp();
+
+    cHistogram hist;
+    cHistogram inputHist;
+    cHistogram outputHist;
+    int deletedCount;
+    int packetsSum;
+    std::queue<double> timeStampQueue;
 
 };
 

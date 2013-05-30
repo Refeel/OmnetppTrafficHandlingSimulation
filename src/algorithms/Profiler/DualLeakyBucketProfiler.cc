@@ -27,6 +27,7 @@ DualLeakyBucketProfiler::~DualLeakyBucketProfiler() {
 }
 
 void DualLeakyBucketProfiler::initialize() {
+    Profiler::initialize();
     this->capacity1 = par("capacity1");
     this->capacity2 = par("capacity2");
     this->sendDelay1 = par("sendDelay1");
@@ -54,6 +55,7 @@ void DualLeakyBucketProfiler::handleMessage(cMessage *msg) {
                 sprintf((char*) buf.c_str(), "Packet deleted");
                 EV<< buf.c_str();
                 bubble(buf.c_str());
+                deletedCount++;
             }
         }
         scheduleAt(simTime() + this->sendDelay1, event1);
@@ -66,24 +68,28 @@ void DualLeakyBucketProfiler::handleMessage(cMessage *msg) {
 
     } else { // received true packet
         SimplePacket *sPacket = check_and_cast<SimplePacket *>(msg); // dynamic cast
+        inputHist.collect(simTime().dbl());
+        packetsSum++;
         if (queue1.getLength() < this->capacity1) {
             queue1.insert(sPacket);
             std::string buf;
             sprintf((char*) buf.c_str(), "Packet added to queue 1");
             EV<< buf.c_str();
             bubble(buf.c_str());
+            addTimeStamp();
         } else {
             delete sPacket;
             std::string buf;
             sprintf((char*) buf.c_str(), "Packet deleted");
             EV<< buf.c_str();
             bubble(buf.c_str());
+            deletedCount++;
         }
     }
 }
 
 void DualLeakyBucketProfiler::finish() {
-
+    Profiler::finish();
 }
 
 } /* namespace omnetpptraffichandlingsimulation */

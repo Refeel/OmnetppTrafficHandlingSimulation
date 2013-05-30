@@ -36,6 +36,7 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc and .msg files
 OBJS = \
+    $O/Sink.o \
     $O/Txc.o \
     $O/algorithms/AdmissionControl/AdmissionControl.o \
     $O/algorithms/AdmissionControl/AdmissionControlFrontDrop.o \
@@ -151,6 +152,7 @@ depend:
 	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc algorithms/*.cc algorithms/AdmissionControl/*.cc algorithms/Profiler/*.cc algorithms/Scheduler/*.cc generators/*.cc packet/*.cc
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
+$O/Sink.o: Sink.cc
 $O/Txc.o: Txc.cc \
 	Txc.h
 $O/algorithms/AdmissionControl/AdmissionControl.o: algorithms/AdmissionControl/AdmissionControl.cc \

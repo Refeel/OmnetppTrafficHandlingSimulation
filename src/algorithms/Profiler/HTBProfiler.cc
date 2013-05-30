@@ -27,12 +27,13 @@ HTBProfiler::~HTBProfiler() {
 }
 
 void HTBProfiler::initialize() {
+    Profiler::initialize();
     this->tokenPutDelay = par("tokenPutDelay");
     this->maxTokenNumber = par("maxTokenNumber");
     this->priorityNumber = par("priorityNumber");
     this->event = new cMessage("event");
     this->tokenCount = new int[this->priorityNumber];
-    this->queue = new cPacketQueue[this->priorityNumber];
+//    this->queue = new cPacketQueue[this->priorityNumber];
 
     for (int i = 0; i < this->priorityNumber; i++) {
         tokenCount[i] = this->maxTokenNumber;
@@ -48,15 +49,15 @@ void HTBProfiler::handleMessage(cMessage *msg) {
             if (tokenCount[i] < maxTokenNumber) {
                 tokenCount[i]++;
                 EV << "Token count " << i << " = " << tokenCount[i] << "\n";
-                if (queue[i].getLength() > 0) {
-                    forwardPacket(
-                            check_and_cast<SimplePacket *>(queue[i].pop()));
-                    tokenCount[i]--;
-                    std::string buf;
-                    sprintf((char*) buf.c_str(), "Packet sent from queue %d", i);
-                    EV<< buf.c_str();
-                    bubble(buf.c_str());
-                }
+//                if (queue[i].getLength() > 0) {
+//                    forwardPacket(
+//                            check_and_cast<SimplePacket *>(queue[i].pop()));
+//                    tokenCount[i]--;
+//                    std::string buf;
+//                    sprintf((char*) buf.c_str(), "Packet sent from queue %d", i);
+//                    EV<< buf.c_str();
+//                    bubble(buf.c_str());
+//                }
             }
         }
         scheduleAt(simTime() + this->tokenPutDelay, event);
@@ -65,17 +66,28 @@ void HTBProfiler::handleMessage(cMessage *msg) {
 
     else { // received true packet
         SimplePacket *sPacket = check_and_cast<SimplePacket *>(msg); // dynamic cast
+        inputHist.collect(simTime().dbl());
+        packetsSum++;
         if (tokenCount[sPacket->getPriority()] > 0) {
+            addTimeStamp();
             forwardPacket(sPacket);
             tokenCount[sPacket->getPriority()]--;
         } else if (checkOtherNodes(sPacket->getPriority())) {
+            addTimeStamp();
             forwardPacket(sPacket);
             std::string buf;
             sprintf((char*) buf.c_str(), "Token borrowed");
             EV<< buf.c_str();
             bubble(buf.c_str());
-        } else
-            queue[sPacket->getPriority()].insert(sPacket);
+        } else {
+//            queue[sPacket->getPriority()].insert(sPacket);
+            delete sPacket;
+            std::string buf;
+            sprintf((char*) buf.c_str(), "Packet deleted");
+            EV<< buf.c_str();
+            bubble(buf.c_str());
+            deletedCount++;
+        }
         EV << "Token count " << sPacket->getPriority() << " = " << tokenCount[sPacket->getPriority()] << "\n";
     }
 }
@@ -92,6 +104,6 @@ bool HTBProfiler::checkOtherNodes(int level) {
 }
 
 void HTBProfiler::finish() {
-
+    Profiler::finish();
 }
 } /* namespace omnetpptraffichandlingsimulation */

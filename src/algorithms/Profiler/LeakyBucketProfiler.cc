@@ -28,6 +28,7 @@ LeakyBucketProfiler::~LeakyBucketProfiler() {
 }
 
 void LeakyBucketProfiler::initialize() {
+    Profiler::initialize();
     this->capacity = par("capacity");
     this->sendDelay = par("sendDelay");
     this->event = new cMessage("event");
@@ -39,27 +40,30 @@ void LeakyBucketProfiler::handleMessage(cMessage *msg) {
     if (msg == event) { // received timing message
         if (queue.getLength() > 0)
             forwardPacket(check_and_cast<SimplePacket *>(queue.pop()));
-
         scheduleAt(simTime() + this->sendDelay, event);
 
     }
 
     else { // received true packet
         SimplePacket *sPacket = check_and_cast<SimplePacket *>(msg); // dynamic cast
+        inputHist.collect(simTime().dbl());
+        packetsSum++;
         if (queue.getLength() < this->capacity) {
             queue.insert(sPacket);
+            addTimeStamp();
         } else {
             delete sPacket;
             std::string buf;
             sprintf((char*) buf.c_str(), "Packet deleted");
             EV<< buf.c_str();
             bubble(buf.c_str());
+            deletedCount++;
         }
     }
 }
 
 void LeakyBucketProfiler::finish() {
-
+    Profiler::finish();
 }
 
 } /* namespace omnetpptraffichandlingsimulation */

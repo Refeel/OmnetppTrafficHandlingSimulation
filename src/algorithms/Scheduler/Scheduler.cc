@@ -19,11 +19,21 @@ Scheduler::~Scheduler() {
 }
 
 simtime_t Scheduler::serviceMsg(SimplePacket *sp) {
-    return (0.01 * sp->getLength());  // service time proportional to packet length
+    double delay = simTime().dbl() - sp->getInTime();
+    histDelay.collect(delay);
+    switch(sp->getPriority())
+    {
+        case 0: {histDelayPriority0.collect(delay); break;}
+        case 1: {histDelayPriority1.collect(delay); break;}
+        case 2: {histDelayPriority2.collect(delay); break;}
+        case 3: {histDelayPriority3.collect(delay); break;}
+    }
+    return (0.05 * sp->getLength());  // service time proportional to packet length
 }
 
 
 void Scheduler::initialize() {
+
 
     this->msgServiced = new cMessage("msgServiced");
     packetQueues = new std::vector<std::queue<SimplePacket *> *>();
@@ -35,6 +45,17 @@ void Scheduler::initialize() {
 
     for(int i=0;i<numOfPriorityClasses;i++)
         packetQueues->push_back(new std::queue<SimplePacket *>());
+
+
+    histDelay.setName("delayHist");
+    histDelayPriority0.setName("delayHistPriority0");
+    histDelayPriority1.setName("delayHistPriority1");
+    histDelayPriority2.setName("delayHistPriority2");
+    histDelayPriority3.setName("delayHistPriority3");
+
+    numIncPackets = 0;
+    numRejectedPackets = 0;
+
 }
 
 void Scheduler::handleMessage(cMessage *msg) {
@@ -52,7 +73,15 @@ void Scheduler::handleMessage(cMessage *msg) {
 }
 
 void Scheduler::finish() {
+    histDelay.recordAs("packets_delay");
+    histDelayPriority0.recordAs("packets_delay_priority0");
+    histDelayPriority1.recordAs("packets_delay_priority1");
+    histDelayPriority2.recordAs("packets_delay_priority2");
+    histDelayPriority3.recordAs("packets_delay_priority3");
 
+    EV<<"num incomming packets: " << numIncPackets;
+    EV<<"\nnum rejected packets: " << numRejectedPackets;
+    EV<<"\npacket loss: " << (double)numRejectedPackets / (double)numIncPackets;
 }
 
 

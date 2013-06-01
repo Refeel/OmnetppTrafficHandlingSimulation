@@ -24,4 +24,6 @@ packet SimplePacket
      int priority;
      int length;
      string payload; //packet data
+     
+     double inTime;
 };

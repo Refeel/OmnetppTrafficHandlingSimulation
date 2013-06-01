@@ -43,15 +43,24 @@ void SchedulerFIFO::handleMessage(cMessage *msg) {
         }
     }
     else if(!isMsgServiced) {
-        simtime_t serviceTime = serviceMsg(check_and_cast<SimplePacket *> (msg));
+        SimplePacket *sp = check_and_cast<SimplePacket *> (msg);
+        sp->setInTime(simTime().dbl());
+        numIncPackets++;
+
+        simtime_t serviceTime = serviceMsg(sp);
         isMsgServiced = true;
         scheduleAt(simTime() + serviceTime, msgServiced);
     }
     else {
+        SimplePacket *sp = check_and_cast<SimplePacket *> (msg);
+        sp->setInTime(simTime().dbl());
+        numIncPackets++;
+
         if(packetQueue->size() < this->maxPacketsInQueue)   // if queue is not full
-            packetQueue->push(check_and_cast<SimplePacket *> (msg));
+            packetQueue->push(sp);
         else {// reject packet
             msg = NULL;
+            numRejectedPackets++;
             bubble("packet rejected");
         }
     }

@@ -37,6 +37,15 @@ protected:
     int numOfPriorityClasses;
     int maxPacketsInQueue;
 
+    cHistogram histDelay;
+    cHistogram histDelayPriority0;
+    cHistogram histDelayPriority1;
+    cHistogram histDelayPriority2;
+    cHistogram histDelayPriority3;
+
+    int numIncPackets;
+    int numRejectedPackets;
+
 };
 
 Define_Module(Scheduler);

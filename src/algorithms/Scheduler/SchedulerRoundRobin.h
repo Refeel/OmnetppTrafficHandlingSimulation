@@ -20,7 +20,6 @@ public:
 
 protected:
     virtual void handleMessage(cMessage *msg);  // to override
-    virtual void finish();
 
 
 private:

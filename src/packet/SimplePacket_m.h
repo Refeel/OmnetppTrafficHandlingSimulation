@@ -28,6 +28,8 @@ namespace omnetpptraffichandlingsimulation {
  *      int priority;
  *      int length;
  *      string payload; 
+ *      
+ *      double inTime;
  * };
  * </pre>
  */
@@ -41,6 +43,7 @@ class SimplePacket : public ::cPacket
     int priority_var;
     int length_var;
     opp_string payload_var;
+    double inTime_var;
 
   private:
     void copy(const SimplePacket& other);
@@ -73,6 +76,8 @@ class SimplePacket : public ::cPacket
     virtual void setLength(int length);
     virtual const char * getPayload() const;
     virtual void setPayload(const char * payload);
+    virtual double getInTime() const;
+    virtual void setInTime(double inTime);
 };
 
 inline void doPacking(cCommBuffer *b, SimplePacket& obj) {obj.parsimPack(b);}

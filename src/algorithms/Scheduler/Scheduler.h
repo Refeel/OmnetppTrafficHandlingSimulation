@@ -43,8 +43,13 @@ protected:
     cHistogram histDelayPriority2;
     cHistogram histDelayPriority3;
 
+    cOutVector vecRejected;
+
     int numIncPackets;
     int numRejectedPackets;
+
+    std::vector<int> numIncPacketsPriority;
+    std::vector<int> numRejectedPacketsPriority;
 
 };
 

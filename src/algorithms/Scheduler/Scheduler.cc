@@ -52,9 +52,16 @@ void Scheduler::initialize() {
     histDelayPriority1.setName("delayHistPriority1");
     histDelayPriority2.setName("delayHistPriority2");
     histDelayPriority3.setName("delayHistPriority3");
+    vecRejected.setName("histRejected");
 
     numIncPackets = 0;
     numRejectedPackets = 0;
+
+    for(int i=0; i< numOfPriorityClasses; i++)
+    {
+        numIncPacketsPriority.push_back(0);
+        numRejectedPacketsPriority.push_back(0);
+    }
 
 }
 
@@ -79,9 +86,19 @@ void Scheduler::finish() {
     histDelayPriority2.recordAs("packets_delay_priority2");
     histDelayPriority3.recordAs("packets_delay_priority3");
 
+//    vecRejected.recordAs("rejected_packets");
+
     EV<<"num incomming packets: " << numIncPackets;
     EV<<"\nnum rejected packets: " << numRejectedPackets;
     EV<<"\npacket loss: " << (double)numRejectedPackets / (double)numIncPackets;
+
+    for(int i=0; i<numOfPriorityClasses; i++)
+    {
+        EV<<"\nPriority "<<i<<":\n";
+        EV<<"num incomming packets: " << numIncPacketsPriority[i];
+        EV<<"\nnum rejected packets: " << numRejectedPacketsPriority[i];
+        EV<<"\npacket loss: " << (double)numRejectedPacketsPriority[i] / (double)numIncPacketsPriority[i];
+    }
 }
 
 

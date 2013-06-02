@@ -46,6 +46,7 @@ void SchedulerFIFO::handleMessage(cMessage *msg) {
         SimplePacket *sp = check_and_cast<SimplePacket *> (msg);
         sp->setInTime(simTime().dbl());
         numIncPackets++;
+        numIncPacketsPriority[sp->getPriority()]++;
 
         simtime_t serviceTime = serviceMsg(sp);
         isMsgServiced = true;
@@ -55,15 +56,19 @@ void SchedulerFIFO::handleMessage(cMessage *msg) {
         SimplePacket *sp = check_and_cast<SimplePacket *> (msg);
         sp->setInTime(simTime().dbl());
         numIncPackets++;
+        numIncPacketsPriority[sp->getPriority()]++;
 
         if(packetQueue->size() < this->maxPacketsInQueue)   // if queue is not full
             packetQueue->push(sp);
         else {// reject packet
-            msg = NULL;
             numRejectedPackets++;
+            numRejectedPacketsPriority[sp->getPriority()]++;
+//            vecRejected.record(numRejectedPackets);
+            msg = NULL;
             bubble("packet rejected");
         }
     }
+
 
     EV<<"qsize: " << packetQueue->size();
 }

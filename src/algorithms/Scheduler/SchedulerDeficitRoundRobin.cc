@@ -87,6 +87,7 @@ void SchedulerDeficitRoundRobin::handleMessage(cMessage *msg)
             SimplePacket *sp = check_and_cast<SimplePacket *> (msg);
             sp->setInTime(simTime().dbl());
             numIncPackets++;
+            numIncPacketsPriority[sp->getPriority()]++;
 
             simtime_t serviceTime = serviceMsg(sp);
             isMsgServiced = true;
@@ -97,12 +98,15 @@ void SchedulerDeficitRoundRobin::handleMessage(cMessage *msg)
             SimplePacket *sp = check_and_cast<SimplePacket *> (msg);
             sp->setInTime(simTime().dbl());
             numIncPackets++;
+            numIncPacketsPriority[sp->getPriority()]++;
 
             if(packetQueues->at(sp->getPriority())->size() < this->maxPacketsInQueue) // if queue is not full
                 packetQueues->at(sp->getPriority())->push(sp);
             else {   // else reject packet
-                sp = NULL;
                 numRejectedPackets++;
+                numRejectedPacketsPriority[sp->getPriority()]++;
+                //vecRejected.record(numRejectedPackets);
+                sp = NULL;
                 bubble("packet rejected");
             }
         }

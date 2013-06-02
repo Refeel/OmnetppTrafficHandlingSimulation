@@ -24,23 +24,25 @@ void AdmissionControlRED::handleMessage(cMessage *msg) {
 
             if (packetQueue.getLength() > 0)
                 send(check_and_cast<SimplePacket *>(packetQueue.pop()), "out", 0);
-                EV<<"Current AdmissionControl size: " << packetQueue.length();
+                //EV<<"Current AdmissionControl size: " << packetQueue.length();
                 scheduleAt(simTime() + 10, sendMessage);
 
         }
     else {
+            SimplePacket *sp = check_and_cast<SimplePacket *> (msg);
+            sp->setInTime(simTime().dbl());
             int queueLength = packetQueue.length();
             double dropProbability = ((double)intuniform(0, 100)) / 100;
 
             if(dropProbability <= ((double)queueLength)/maxPacketsInQueue) {
                 delete(msg);
-                ev << "RED: Delete Message" << endl;
-                EV<<"Current AdmissionControl size: " << packetQueue.length();
-                EV<<" Probability: " << dropProbability;
+                //ev << "RED: Delete Message" << endl;
+                //EV<<"Current AdmissionControl size: " << packetQueue.length();
+                //EV<<" Probability: " << dropProbability;
             }
             else{
-                packetQueue.insert(check_and_cast<SimplePacket *> (msg));
-                EV<<"Current AdmissionControl size: " << packetQueue.length();
+                packetQueue.insert(sp);
+                //EV<<"Current AdmissionControl size: " << packetQueue.length();
             }
     }
 

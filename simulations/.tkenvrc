@@ -1,12 +1,11 @@
 # Partial Tkenv config file -- see $HOME/.tkenvrc as well
-inspector "TestSchedulerDeficitRoundRobin" "TestSchedulerDeficitRoundRobin" "2" "818x342+204+240:normal"
 inspector "TestSchedulerRoundRobin" "TestSchedulerRoundRobin" "2" "750x342+226+303:normal"
+inspector "TestSchedulerFIFO" "TestSchedulerFIFO" "2" "662x342+250+250:normal"
 inspector "TestProfilerLeakyBucket" "TestProfilerLeakyBucket" "2" "718x342+344+230:normal"
 inspector "TestNetworkExponential" "TestNetworkExponential" "2" "675x342+238+228:normal"
 inspector "TestNetworkPoisson" "TestNetworkPoisson" "2" "637x342+301+200:normal"
-inspector "TestSchedulerFIFO" "TestSchedulerFIFO" "2" "666x342+569+401:normal"
-inspector "TestNetwork" "TestNetwork" "2" "565x342+200+200:normal"
+inspector "TestSchedulerDeficitRoundRobin" "TestSchedulerDeficitRoundRobin" "2" "818x342+204+240:normal"
+inspector "TestSchedulerWeightedRoundRobin" "TestSchedulerWeightedRoundRobin" "2" "853x403+145+358:normal"
 inspector "TestNetworkMarkov" "TestNetworkMarkov" "2" "639x342+130+130:normal"
 inspector "Tictoc" "Tictoc" "2" "565x342+75+75:normal"
-inspector "TestSchedulerWeightedRoundRobin" "TestSchedulerWeightedRoundRobin" "2" "853x403+145+358:normal"
 

@@ -85,7 +85,7 @@ void SchedulerDeficitRoundRobin::handleMessage(cMessage *msg)
         else if(!isMsgServiced)
         {
             SimplePacket *sp = check_and_cast<SimplePacket *> (msg);
-            sp->setInTime(simTime().dbl());
+            //sp->setInTime(simTime().dbl());
             numIncPackets++;
             numIncPacketsPriority[sp->getPriority()]++;
 
@@ -96,7 +96,7 @@ void SchedulerDeficitRoundRobin::handleMessage(cMessage *msg)
         else
         {
             SimplePacket *sp = check_and_cast<SimplePacket *> (msg);
-            sp->setInTime(simTime().dbl());
+            //sp->setInTime(simTime().dbl());
             numIncPackets++;
             numIncPacketsPriority[sp->getPriority()]++;
 

@@ -28,7 +28,7 @@ simtime_t Scheduler::serviceMsg(SimplePacket *sp) {
         case 2: {histDelayPriority2.collect(delay); break;}
         case 3: {histDelayPriority3.collect(delay); break;}
     }
-    return (0.05 * sp->getLength());  // service time proportional to packet length
+    return (0.04 * sp->getLength());  // service time proportional to packet length
 }
 
 
@@ -48,10 +48,15 @@ void Scheduler::initialize() {
 
 
     histDelay.setName("delayHist");
+    histDelay.setRangeAutoUpper(0, 1000, 2.0);
     histDelayPriority0.setName("delayHistPriority0");
+    histDelayPriority0.setRangeAutoUpper(0, 1000, 2.0);
     histDelayPriority1.setName("delayHistPriority1");
+    histDelayPriority1.setRangeAutoUpper(0, 1000, 2.0);
     histDelayPriority2.setName("delayHistPriority2");
+    histDelayPriority2.setRangeAutoUpper(0, 1000, 2.0);
     histDelayPriority3.setName("delayHistPriority3");
+    histDelayPriority3.setRangeAutoUpper(0, 1000, 2.0);
     vecRejected.setName("histRejected");
 
     numIncPackets = 0;
@@ -91,6 +96,8 @@ void Scheduler::finish() {
     EV<<"num incomming packets: " << numIncPackets;
     EV<<"\nnum rejected packets: " << numRejectedPackets;
     EV<<"\npacket loss: " << (double)numRejectedPackets / (double)numIncPackets;
+    EV<<"\nOverall packet success: " <<(double)(numIncPackets-numRejectedPackets) / 4000.0f;
+    EV<<"\nOverall packet loss: " <<(double)((4000.0f - numIncPackets) + numRejectedPackets) / 4000.0f;
 
     for(int i=0; i<numOfPriorityClasses; i++)
     {

@@ -57,10 +57,10 @@ network TestNetworkFullBest
         admissionControl: AdmissionControlRED { // CHOOSE IMPLEMENTATION OF ADMISSION CONTROL
             @display("p=237,146");
         }
-        profiler: TokenBucketProfiler { // CHOOSE IMPLEMENTATION OF PROFILER
+        profiler: DualLeakyBucketProfiler { // CHOOSE IMPLEMENTATION OF PROFILER
             @display("p=333,146");
         }
-        scheduler: SchedulerDeficitRoundRobin {    // CHOOSE IMPLEMENTATION OF SCHEDULER
+        scheduler: SchedulerWeightedRoundRobin {    // CHOOSE IMPLEMENTATION OF SCHEDULER
 
             @display("p=449,146");
         }
